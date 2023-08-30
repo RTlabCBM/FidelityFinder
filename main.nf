@@ -257,12 +257,12 @@ workflow {
     pear_ch = Channel.fromFilePairs("${params.seq_folder_path}*_{1,2}.fastq*")
 	pear(pear_ch, params.insert_length)
 	graph_lengths(pear.out.len_ch)
-	fastq_to_fasta(pear.out.assembled_seq_ch) 
-	ref_seq_ch = Channel.fromPath(params.ref_seq_path).first()
-	consensus_construction(fastq_to_fasta.out.fasta_ch, ref_seq_ch, params.fw_primer, params.rv_primer, params.cutoff, params.bc_size, params.threshold)
-	consensus_sequences_mapping(consensus_construction.out.consensus_ch, ref_seq_ch)
-	variant_calling(consensus_sequences_mapping.out.bam_file_ch, ref_seq_ch)
-	vcf_analysis(variant_calling.out.vcf_ch, params.min_pos, params.max_pos)
+	//fastq_to_fasta(pear.out.assembled_seq_ch) 
+	//ref_seq_ch = Channel.fromPath(params.ref_seq_path).first()
+	//consensus_construction(fastq_to_fasta.out.fasta_ch, ref_seq_ch, params.fw_primer, params.rv_primer, params.cutoff, params.bc_size, params.threshold)
+	//consensus_sequences_mapping(consensus_construction.out.consensus_ch, ref_seq_ch)
+	//variant_calling(consensus_sequences_mapping.out.bam_file_ch, ref_seq_ch)
+	//vcf_analysis(variant_calling.out.vcf_ch, params.min_pos, params.max_pos)
 	//offsprings_finder(consensus_construction.out.barcodes_ch)
 }
 
