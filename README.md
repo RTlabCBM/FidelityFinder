@@ -16,7 +16,7 @@
 
 <!-- # FidelityFinder logo -->
 <p align="center">
-  <img src="https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Logo3.jpg?raw=true" alt="Descripción de la imagen">
+  <img src="https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/ff_logo.jpg?raw=true" alt="Logo">
 </p>
 
 
@@ -49,7 +49,7 @@ Fidelity determination is based on the "Primers IDs method". Each cDNA obtained 
 
 Primers IDs method to determine fidelity of reverse transcriptases:
 
-[![Workflow](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
+![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
 
 ## Quick Start 
 1. Install [nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation)
@@ -115,11 +115,11 @@ Once you have created your config file with your own parameters, you have to run
 
 ## Library preparation
 
-[![Workflow](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Library_preparation_workflow2.PNG)](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Library_preparation_workflow2.PNG)
+![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Library_preparation_workflow.PNG?raw=true)
 
 ## Pipeline overview 
 
-[![Workflow](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Workflow3.PNG?raw=true)](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/Workflow3.PNG?raw=true)
+![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Workflow.PNG?raw=true)
 
 The pipeline is built using Nextflow. Processing steps:
 
@@ -181,8 +181,8 @@ adapters (including the barcode), which are interesting for our analysis.
   
 - ### Step 5: Obtain consensus sequences
   We have created an in-house Python (v3.6) script to calculate the consensus sequences by barcode
-aiming to resolve PCR and RT errors. The default parameters are fitted for this study, but they are
-configurable to adjust the program to another data.
+aiming to resolve PCR and RT errors.
+
 First of all, we take the assembled reads and split it in order to obtain the sequence and the barcode
 separately.
 Secondly, we performed a cut-off process leaving out of the study barcodes which had less than the
@@ -262,32 +262,32 @@ This is a summary of the expected results obtained running the pipeline with the
 
 - ### Step 1: Quality Control
 `<sample_name>_1_fastqc*.html`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/QC_1.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/QC_1.png?raw=true)
 
 - ### Step 3: Graph lengths of the merged reads
 `<sample_name>_sequences_sizes_after_merging_logscale.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_sequences_sizes_after_merging_logscale.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_sequences_sizes_after_merging_logscale.png?raw=true)
 
 - ### Step 5: Obtain consensus sequences
 `<sample_name>_consensus.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_consensus.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_consensus.png?raw=true)
 
 - ### Step 8: VCF analysis
 `<sample_name>_variants_distribution.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_variants_distribution.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_variants_distribution.png?raw=true)
   
 `<sample_name>_indels_distribution.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_indels_distribution.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_indels_distribution.png?raw=true)
   
 `<sample_name>_heatmap_snp_types.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433heatmap_snp_types.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433heatmap_snp_types.png?raw=true)
   
 `<sample_name>.xlsx`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/error_rate.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_error_rate.png?raw=true)
 
 - ### Step 9: Offspring search
 `<sample_name>_differences.png`  
-![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
 
 ## Extra content
 All the python scripts used in the pipeline are also available as independent Google Colab notebooks:
@@ -302,7 +302,7 @@ Additionally, there are two extra Google Colab notebooks to further process the 
 - [hotspots-finder](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/hotspots_finder.ipynb?hl=es): it can process mutations tables of several samples to analyze and plot total variants, indels and SNPs in common
 
 ## Creative Commons
-[![image](https://github.com/friburgo-moc/FidelityFinder/blob/main/docs/images/cc_logo.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)  
+[![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/cc_logo.png?raw=true)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)  
 **Attribution-NonCommercial-ShareAlike 4.0 International**  
 **(CC BY-NC-SA 4.0)** 
 
