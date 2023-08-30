@@ -1,0 +1,20 @@
+name: ff_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - fastx_toolkit
+  - pear
+  - fastqc
+  - bwa
+  - samtools
+  - freebayes
+  - python
+  - matplotlib
+  - openjpeg
+  - libtiff
+  - mafft
+  - seaborn
+  - biopython
+  - xlsxwriter
