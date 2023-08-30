@@ -56,14 +56,14 @@ Primers IDs method to determine fidelity of reverse transcriptases:
 2. Install [Docker](https://docs.docker.com/get-docker/) or [Conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html#regular-installation) 
 3. Run the pipeline with the test data provided:
    ```console
-   nextflow run https://github.com/friburgo-moc/FidelityFinder -profile <conda/docker>,test_profile -r main
+   nextflow run https://github.com/RTlabCBM/FidelityFinder -profile <conda/docker>,test_profile -r main
    ```
    > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2  
    > - You can find the expected results of the test data analysis in [Test data results](#test-data-results)
    
 4. Run the pipeline with your own data:
    ```console
-   nextflow run https://github.com/friburgo-moc/FidelityFinder -c <config_file> -<conda/docker>,<your_profile> -r main
+   nextflow run https://github.com/RTlabCBM/FidelityFinder -c <config_file> -<conda/docker>,<your_profile> -r main
    ```
    > - `<config_file>` must contain your input parameters for your own analysis. See [Input parameters](#input-parameters) section for more details.
    > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2
