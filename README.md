@@ -290,7 +290,7 @@ This is a summary of the expected results obtained running the pipeline with the
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
 
 ## Extra content
-All the python scripts used in the pipeline are also available as independent Jupyther Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter). They can be open with the following Google Colab links:
+All the python scripts used in the pipeline are also accessible as independent Jupyther Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter)). They can be opened with the following Google Colab links:
 
 - [sizes-graphs](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/sizes_graphs.ipynb?hl=es): creates plots with the lengths of the merged sequences obtained.
 - [consensus-construction](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/consensus_construction.ipynb?hl=es): finds barcodes and builds consensus sequences
