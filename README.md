@@ -52,35 +52,32 @@ Primers IDs method to determine fidelity of reverse transcriptases:
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
 
 ## Quick Start 
-1. Install [nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation)
-2. Install [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html#regular-installation)
+1. Install [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) (>=23.04.2)
+2. Install [Docker](https://docs.docker.com/get-docker/) or [Conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html#regular-installation) 
 3. Run the pipeline with the test data provided:
    ```console
-   nextflow run https://github.com/friburgo-moc/FidelityFinder -profile test_profile -r main
+   nextflow run https://github.com/friburgo-moc/FidelityFinder -profile <conda/docker>,test_profile -r main
    ```
-   You can find the expected results of the test data analysis in [Test data results](#test-data-results)
+   > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2  
+   > - You can find the expected results of the test data analysis in [Test data results](#test-data-results)
    
 4. Run the pipeline with your own data:
    ```console
-   nextflow run https://github.com/friburgo-moc/FidelityFinder -c <config_file> -profile my_profile -r main
+   nextflow run https://github.com/friburgo-moc/FidelityFinder -c <config_file> -<conda/docker>,<your_profile> -r main
    ```
-   `<config_file>` must contain your input parameters for your own analysis. See [Input parameters](#input-parameters) section for more details.
-   
----
-If you are using conda, it is recommended to use the [`conda.cacheDir`](https://www.nextflow.io/docs/latest/conda.html#how-it-works) setting to store the environments in a central location for future pipeline runs.
+   > - `<config_file>` must contain your input parameters for your own analysis. See [Input parameters](#input-parameters) section for more details.
+   > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2
+   > - Replace <your_profile> for the name of the profile with your own input parameters in the `config_file`
+   > - If you are using conda, it is recommended to use the [`conda.cacheDir`](https://www.nextflow.io/docs/latest/conda.html#how-it-works) setting to store the environments in a central location for future pipeline runs.
+   > - If you want to generate an [`Execution report`](https://www.nextflow.io/docs/latest/tracing.html#execution-report), add the following command line option: `-with-report [file name]`
 
-If you want to generate an [`Execution report`](https://www.nextflow.io/docs/latest/tracing.html#execution-report), add the following command line option: 
-```console
--with-report [file name]
-```
 
 ## Input parameters
 
-Input parameters must be provided in your own config file. It must contain the following structure:
+Input parameters must be provided in your own config file. You have to add your own profile to the `nextflow.config` file of this repository. It must contain the following structure:
 
   ```console
-conda.enabled = true
- my_profile  {
+ your_profile  {
 	params.seq_folder_path = '/folder/with/raw/sequences'
 	params.ref_seq_path = 'file/with/reference/sequence'
 	params.insert_length = "length of the library insert"
@@ -290,7 +287,7 @@ This is a summary of the expected results obtained running the pipeline with the
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
 
 ## Extra content
-All the python scripts used in the pipeline are also accessible as independent Jupyther Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter)). They can be opened with the following Google Colab links:
+All the Python scripts used in the pipeline are also accessible as independent Jupyter Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter)). They can be opened with the following Google Colab links:
 
 - [sizes-graphs](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/sizes_graphs.ipynb?hl=es): creates plots with the lengths of the merged sequences obtained.
 - [consensus-construction](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/consensus_construction.ipynb?hl=es): finds barcodes and builds consensus sequences
