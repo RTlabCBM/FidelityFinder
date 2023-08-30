@@ -290,16 +290,16 @@ This is a summary of the expected results obtained running the pipeline with the
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
 
 ## Extra content
-All the python scripts used in the pipeline are also available as independent Google Colab notebooks:
+All the python scripts used in the pipeline are also available as independent Jupyther Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter). They can be open with the following Google Colab links:
 
-- [sizes-graphs](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/sizes_graphs.ipynb?hl=es): creates plots with the lengths of the merged sequences obtained.
-- [consensus-construction](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/consensus_construction.ipynb?hl=es): finds barcodes and builds consensus sequences
-- [vcf-analyzer](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/vcf_analyzer.ipynb?hl=es): finds variants in VCF files. Creates an excel file with different data (table with variants, total number of variants, mutation rate...) and graphs showing the distribution of variants in the reference sequence, the distribution of indels and a heatmap with the types of SNPs (if any).
-- [offsprings-finder](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/offsprings_finder.ipynb?hl=es): finds possible offspring barcodes (barcodes generated due to errors in PCR reactions/sequencing reaction).
+- [sizes-graphs](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/sizes_graphs.ipynb?hl=es): creates plots with the lengths of the merged sequences obtained.
+- [consensus-construction](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/consensus_construction.ipynb?hl=es): finds barcodes and builds consensus sequences
+- [vcf-analyzer](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/vcf_analyzer.ipynb?hl=es): finds variants in VCF files. Creates an excel file with different data (table with variants, total number of variants, mutation rate...) and graphs showing the distribution of variants in the reference sequence, the distribution of indels and a heatmap with the types of SNPs (if any).
+- [offsprings-finder](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/offsprings_finder.ipynb?hl=es): finds possible offspring barcodes (barcodes generated due to errors in PCR reactions/sequencing reaction).
 
 Additionally, there are two extra Google Colab notebooks to further process the results of the pipeline:
-- [barcode-analyzer](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/barcode_analyzer.ipynb?hl=es): creates a plot with a profile of the nucleotides present in barcodes
-- [hotspots-finder](https://colab.research.google.com/github/friburgo-moc/FidelityFinder/blob/main/ColabNotebooks/hotspots_finder.ipynb?hl=es): it can process mutations tables of several samples to analyze and plot total variants, indels and SNPs in common
+- [barcode-analyzer](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/barcode_analyzer.ipynb?hl=es): creates a plot with a profile of the nucleotides present in barcodes
+- [hotspots-finder](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/hotspots_finder.ipynb?hl=es): it can process mutations tables of several samples to analyze and plot total variants, indels and SNPs in common
 
 ## Creative Commons
 [![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/cc_logo.png?raw=true)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)  
