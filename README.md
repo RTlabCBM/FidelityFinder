@@ -177,17 +177,12 @@ adapters (including the barcode), which are interesting for our analysis.
 - ### Step 4: Obtain sequences in fasta format
   
 - ### Step 5: Obtain consensus sequences
-  We have created an in-house Python (v3.6) script to calculate the consensus sequences by barcode
-aiming to resolve PCR and RT errors.
+  We have created an in-house Python (v3.6) script to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors.
 
-First of all, we take the assembled reads and split it in order to obtain the sequence and the barcode
-separately.
-Secondly, we performed a cut-off process leaving out of the study barcodes which had less than the
-lower cut-off value and more than the upper cut-off value sequences. With the rest of sequences, we
-carried out a multiple alignment using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005). An absolute frequency matrix is
-obtained with scores per base position in the consensus sequence. The resulted files from this
-program execution are:
+  First of all, we take the assembled reads and split it in order to obtain the sequence and the barcode separately.
 
+  Secondly, we performed a cut-off process leaving out of the study barcodes which had less than the lower cut-off value and more than the upper cut-off value sequences. With the rest of the sequences, we carried out a multiple alignment using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005). An absolute frequency matrix is obtained with scores per base position in the consensus sequence. The resulting files from this program execution are:
+  
 	<details markdown="1">
 	<summary>Output files</summary>
 		
@@ -201,6 +196,8 @@ program execution are:
 			- `<sample_name>_cutoff_consensus.png`: a scatter plot of the barcode distribution (applying the cutoff step)
         
 	</details>
+ 
+
  
 - ### Step 6: Map consensus sequences
   We used the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package which employs the Burrows-Wheeler Alignment tool and later we sorted the alignments with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
