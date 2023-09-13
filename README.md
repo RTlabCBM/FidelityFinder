@@ -47,7 +47,7 @@
 
 Fidelity determination is based on the "Primers IDs method". Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR and added the adaptor sequences to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are sequenced then by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline is able to discard PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, so it obtains and error rate. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
 
-Primers IDs method to determine fidelity of reverse transcriptases:
+Primers IDs method to determine the fidelity of reverse transcriptases:
 
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
 
@@ -78,11 +78,9 @@ Input parameters must be provided in your own config file. You have to add your 
 
   ```console
  your_profile  {
-	params.seq_folder_path = '/folder/with/raw/sequences'
-	params.ref_seq_path = 'file/with/reference/sequence'
+	params.seq_folder_path = "/folder/with/raw/sequences"
+	params.ref_seq_path = "/file/with/reference/sequence"
 	params.insert_length = "length of the library insert"
-	params.fw_primer = "forward_primer_sequence"
-	params.rv_primer = "reverse_primer_sequence"
 	params.cutoff = "cutoff_value_to_discard_low_frequency_barcodes"
 	params.bc_size = "nucleotides_of_the_barcode"
 	params.threshold = "threshold_used_to_construct_consensus_sequences"
@@ -92,21 +90,46 @@ Input parameters must be provided in your own config file. You have to add your 
   ```
 
 - **params.seq_folder_path**  
-path of the folder where you have the raw sequences obtained by NGS. Files must have the following names: **<sample_name>_1.fastq** and **<sample_name>_2.fastq** for the forward and reverse sequences, respectively. You can also have them compressed: **<sample_name>_1.fastq.gz** and **<sample_name>_2.fastq.gz**.
-- **params.ref_seq_path**  
-path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations), the barcode sequence must be indicated with as many "N" as nucleotides it has.
-- **params.insert_length**
-length of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. This parameter is important to filter merged reads according to their length: reads that differ by more than 20 nucleotides from the indicated length are not selected. If you want to modify the ±20 nucleotides consideration, you have to change the "20" numbers found in the following line of `main.nf`:
+path of the folder where you have the raw sequences obtained by NGS. Files must have the following names: **<sample_name>_1.fastq** and **<sample_name>_2.fastq** for the forward and reverse sequences, respectively. You can also have them compressed: **<sample_name>_1.fastq.gz** and **<sample_name>_2.fastq.gz**. Example:
 ```console
-awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
+`params.seq_folder_path = "${baseDir}/RawData/Test/"`
 ```
-- **params.fw_primer**  
-- **params.rv_primer**  
-- **params.cutoff**  
-- **params.bc_size**  
+
+- **params.ref_seq_path**  
+path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the Reads 1 of the NGS result. Example:
+```console
+`${baseDir}/RefSequence/test_ref_seq.fa`
+```
+And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides:
+```console
+>my_reference_sequence
+CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
+```
+
+- **params.insert_length (HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE NUCLEÓTIDOS PROPORCIONADO EN ref_seq_path)**
+length of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. This parameter is important to filter merged reads according to their length: reads that differ by more than 20 nucleotides from the indicated length are not selected. 
+
+- **params.cutoff**
+this cutoff is used to discard reads during the consensus construction: if the number of reads that share a barcode is equal to or lower than the cutoff, these reads will not be used. A minimum of 3 reads with the same barcode is needed to build an appropriate consensus sequence, so the minimum cutoff value should be 2. Example:
+```console
+params.cutoff = "2"
+```
+
+- **params.bc_size (HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE Ns PROPORCIONADO EN ref_seq_path)**
+
 - **params.threshold**
+
 - **params.min_pos**
+first position of the reference sequence used to quantify mutations. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contain a barcode, params.min_pos value should be 16. Example:
+```console
+params.min_pos = "16"
+```
+
 - **params.max_pos** 
+last position of the reference sequence used to quantify mutations. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contain a barcode, params.max_pos value should be 84. Example:
+```console
+params.max_pos = "84"
+```
 
 Once you have created your config file with your own parameters, you have to run the pipeline and specify the path of the config_file with -c <config_file> and the name of the profile with your specific parameters -profile my_profile
 
@@ -145,6 +168,11 @@ containing the assembled reads (assembled.fastq extension), two files containing
 reverse unassembled reads (unassembled.forward.fastq and unassembled.reverse.fastq extensions),
 and a file containing the discarded reads (discarded.fastq extension). We performed this method because it holds the
 adapters (including the barcode), which are interesting for our analysis.
+
+Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. If you want to modify the ±20 nucleotides consideration, you have to change the "20" numbers found in the following line of `main.nf`:
+```console
+awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
+```
 
 	<details markdown="1">
 	<summary>Output files</summary>
