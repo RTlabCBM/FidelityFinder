@@ -92,17 +92,17 @@ Input parameters must be provided in your own config file. You have to add your 
 - **params.seq_folder_path**  
 path of the folder where you have the raw sequences obtained by NGS. Files must have the following names: **<sample_name>_1.fastq** and **<sample_name>_2.fastq** for the forward and reverse sequences, respectively. You can also have them compressed: **<sample_name>_1.fastq.gz** and **<sample_name>_2.fastq.gz**. Example:
 ```console
-`params.seq_folder_path = "${baseDir}/RawData/Test/"`
+`params.seq_folder_path = "${baseDir}/RawReads/"`
 ```
 
 - **params.ref_seq_path**  
 path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the Reads 1 of the NGS result. Example:
 ```console
-`${baseDir}/RefSequence/test_ref_seq.fa`
+params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
 ```
 And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides:
 ```console
->my_reference_sequence
+>insert_reference_sequence
 CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
