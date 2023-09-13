@@ -120,13 +120,13 @@ params.cutoff = "2"
 - **params.threshold**
 
 - **params.min_pos**
-first position of the reference sequence used to quantify mutations. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contain a barcode, params.min_pos value should be 16. Example:
+first position of the reference sequence used to quantify mutations. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contains a barcode, params.min_pos value should be 16. Example:
 ```console
 params.min_pos = "16"
 ```
 
 - **params.max_pos** 
-last position of the reference sequence used to quantify mutations. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contain a barcode, params.max_pos value should be 84. Example:
+last position of the reference sequence used to quantify mutations. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contains a barcode, params.max_pos value should be 84. Example:
 ```console
 params.max_pos = "84"
 ```
