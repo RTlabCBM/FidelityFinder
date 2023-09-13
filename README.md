@@ -143,8 +143,7 @@ possible paired-end read overlaps without requiring the target fragment size as 
 implements a statistical test for minimizing false-positive results. PEAR outputs four files. A file
 containing the assembled reads (assembled.fastq extension), two files containing the forward and
 reverse unassembled reads (unassembled.forward.fastq and unassembled.reverse.fastq extensions),
-and a file containing the discarded reads (discarded.fastq extension) (cf. Appendix 1: Checklist of
-provided supplemental files, directory: pear/). We performed this method because it holds the
+and a file containing the discarded reads (discarded.fastq extension). We performed this method because it holds the
 adapters (including the barcode), which are interesting for our analysis.
 
 	<details markdown="1">
@@ -177,7 +176,7 @@ adapters (including the barcode), which are interesting for our analysis.
 - ### Step 4: Obtain sequences in fasta format
   
 - ### Step 5: Obtain consensus sequences
-  We have created an in-house Python (v3.6) script to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors.
+  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors.
 
   First of all, we take the assembled reads and split it in order to obtain the sequence and the barcode separately.
 
@@ -206,13 +205,10 @@ adapters (including the barcode), which are interesting for our analysis.
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `5_consensus/`
-			- `<sample_name>_consensus.fna`: a FASTA file with the barcode, number of sequences and consensus sequence in each case
-			- `<sample_name>_consensus.xls`: a summary of the results, showing the barcode, consensus and sequences per barcode	 
-			- `<sample_name>_consensus.prf`: the matrix with specific score per position in the consensus sequence
-			- `<sample_name>_discarded.txt`: a plain text file with sequences’ barcodes that didn’t fit the cutoff 
-			- `<sample_name>_consensus.png`: a scatter plot of the barcode distribution (without the cutoff step)
-			- `<sample_name>_cutoff_consensus.png`: a scatter plot of the barcode distribution (applying the cutoff step)
+	   - `6_map_consensus/`
+			- `<sample_name>.sam`: a sam file
+    			- `<sample_name>.bam`: a bam file
+
         
 	</details>
 
