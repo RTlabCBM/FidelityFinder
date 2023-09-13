@@ -92,7 +92,7 @@ Input parameters must be provided in your own config file. You have to add your 
 - **params.seq_folder_path**  
 path of the folder where you have the raw sequences obtained by NGS. Files must have the following names: **<sample_name>_1.fastq** and **<sample_name>_2.fastq** for the forward and reverse sequences, respectively. You can also have them compressed: **<sample_name>_1.fastq.gz** and **<sample_name>_2.fastq.gz**. Example:
 ```console
-`params.seq_folder_path = "${baseDir}/RawReads/"`
+params.seq_folder_path = "${baseDir}/RawReads/"
 ```
 
 - **params.ref_seq_path**  
