@@ -28,7 +28,7 @@
 4. [Libray preparation](#library-preparation)
 5. [Pipeline overview](#pipeline-overview)
    * [Step 1: Quality Control](#step-1-quality-control)
-   * [Step 2: Joining of Paired Reads](#step-2-joining-of-paired-reads)
+   * [Step 2: Joining of Paired Reads](#step-2-joining-of-paired-reads-and-filtering-by-length)
    * [Step 3: Graph Lengths of the Merged Reads](#step-3-graph-lengths-of-the-merged-reads)
    * [Step 4: Obtain Sequences in Fasta Format](#step-4-obtain-sequences-in-fasta-format)
    * [Step 5: Obtain Consensus Sequences](#step-5-obtain-consensus-sequences)
@@ -206,14 +206,16 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 ```
 
 - ### Step 3: Graph lengths of the merged reads
+An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the previous step. It uses the `<sample_name>._lengths.txt` file as input. 
+
 
 	<details markdown="1">
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `3_len_graphs/`
-			- `<sample_name>_sequences_sizes_after_merging.png`:
-			- `<sample_name>_sequences_sizes_after_merging_logscale.png`:	 
+			- `<sample_name>_sequences_sizes_after_merging.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length)
+			- `<sample_name>_sequences_sizes_after_merging_logscale.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) using a log scale
 
 	</details>
 
