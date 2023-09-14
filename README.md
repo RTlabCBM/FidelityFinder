@@ -40,7 +40,8 @@
 7. [Extra content](#extra-content)
 8. [Creative Commons](#creative-commons)
 9. [Citation](#citation)
-10. [References](#references)
+10. [Developers](#developers)
+11. [References](#references)
 
 ## Introduction
 **FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Next Generation Sequencing (NGS). 
@@ -370,6 +371,17 @@ FidelityFinder includes several third-party packages provided under other open s
 
 ## Citation  
 We politely request that this work be cited as:  
+
+## Developers
+### Main developer
+- Javier Martínez del Río
+  
+### Colaborators
+- Estrella Frutos-Beltrán
+- Eva Castillo
+- Eva Sacristán
+- Sandra González
+- Ramón Peiró-Pastor
 
 ## References
 Garrison E, G. Marth (2012) Haplotype-based variant detection from short-read sequencing.
