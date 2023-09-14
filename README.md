@@ -137,11 +137,15 @@ Once you have created your config file with your own parameters, you have to run
 
 ## Library preparation
 
-One way to prepare the libraries is as follows: first, a reverse transcription step using a primer with an overhang with the barcode sequence, asecond PCR step to incorporate the adapter sequences, and a third step would be Next Generation Sequencing: short-read sequencing technology in paired-end mode.
+One way to prepare the libraries is as follows: 
+1. **Reverse transcription** step using a primer with an overhang that contains a barcode sequence
+2. **PCR** step to incorporate the adapter sequences
+3. **Next Generation Sequencing**: short-read sequencing technology in paired-end mode
+4. **Analysis** of the fastq files (forward and reverse reads, or read 1 and read 2) with [FidelityFinder](#pipeline-overview )
 
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Library_preparation_workflow.PNG?raw=true)
 
-It is possible to vary the way the libraries are prepared. For example by adding several barcodes, adding barcodes by ligation, using intermediate purification steps... 
+It is possible to vary the way the libraries are prepared. For example, by adding several barcodes, adding barcodes by ligation, using intermediate purification steps... 
 
 ## Pipeline overview 
 
