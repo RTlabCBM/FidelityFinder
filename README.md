@@ -189,7 +189,7 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `3_len_graphs/`
+	   - `2_pear/`
 			- `<sample_name>.assembled.fastq`: file containing the assembled reads by PEAR
 			- `<sample_name>.unassembled.forward.fastq`: file containing forward unassembled reads by PEAR
 			- `<sample_name>.unassembled.reverse.fastq`: file containing reverse unassembled reads by PEAR
@@ -260,7 +260,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
  
 - ### Step 6: Map consensus sequences
-  We used the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package which employs the Burrows-Wheeler Alignment tool and later we sorted the alignments with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
+  Reads from the `<sample_name>_consensus.fna` file of the [previous step](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterward, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
 
 	<details>
 	<summary>Output files</summary>
