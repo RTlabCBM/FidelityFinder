@@ -100,7 +100,9 @@ path of the file with the reference sequence, i.e., the sequence of the insert o
 ```console
 params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
 ```
-And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides:
+
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides: </p>   
+
 ```console
 >insert_reference_sequence
 CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
