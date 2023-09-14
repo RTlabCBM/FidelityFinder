@@ -67,7 +67,7 @@ Primers IDs method to determine the fidelity of reverse transcriptases:
    ```
    > - `<config_file>` must contain your input parameters for your own analysis. See [Input parameters](#input-parameters) section for more details.
    > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2
-   > - Replace <your_profile> for the name of the profile with your own input parameters in the `config_file`
+   > - Replace `<your_profile>` for the name of the profile with your own input parameters in the `config_file`
    > - If you are using conda, it is recommended to use the [`conda.cacheDir`](https://www.nextflow.io/docs/latest/conda.html#how-it-works) setting to store the environments in a central location for future pipeline runs.
    > - If you want to generate an [`Execution report`](https://www.nextflow.io/docs/latest/tracing.html#execution-report), add the following command line option: `-with-report [file name]`
 
@@ -162,33 +162,27 @@ The pipeline is built using Nextflow. Processing steps:
 
   
 - ### Step 2: Joining of paired reads
-  The first step is to join paired reads into one single sequence. This has been performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html)
-(Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all
-possible paired-end read overlaps without requiring the target fragment size as input. In addition, it
-implements a statistical test for minimizing false-positive results. PEAR outputs four files. A file
-containing the assembled reads (assembled.fastq extension), two files containing the forward and
-reverse unassembled reads (unassembled.forward.fastq and unassembled.reverse.fastq extensions),
-and a file containing the discarded reads (discarded.fastq extension). We performed this method because it holds the
-adapters (including the barcode), which are interesting for our analysis.
-
-Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. If you want to modify the ±20 nucleotides consideration, you have to change the "20" numbers found in the following line of `main.nf`:
-```console
-awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
-```
-
+	The first step is to join paired reads into one single sequence. This has been performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files. A file containing the assembled reads (assembled.fastq extension), two files containing the forward and reverse unassembled reads (unassembled.forward.fastq and unassembled.reverse.fastq extensions), and a file containing the discarded reads (discarded.fastq extension). We performed this method because it holds the adapters (including the barcode), which are interesting for our analysis. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected.
+	
 	<details markdown="1">
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `2_merged_sequences/`
+	   - `3_len_graphs/`
 			- `<sample_name>.unassembled.forward.fastq`:
-			- `<sample_name>.unassembled.reverse.fastq`:	 
+			- `<sample_name>.unassembled.reverse.fastq`:
 			- `<sample_name>.discarded.fast`:
 			- `<sample_name>.assembled.fastq`:
-			- `<sample_name>.assembled_filtered.fastq`:
+ 			- `<sample_name>.assembled_filtered.fastq`:
 			- `<sample_name>._lengths.txt`:
-        
 	</details>
+
+				
+	 If you want to modify the ±20 nucleotides consideration, you have to 	change the "20" numbers found in the following line of `main.nf`:
+
+```console
+awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
+```
 
 - ### Step 3: Graph lengths of the merged reads
 
