@@ -108,7 +108,8 @@ params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
 CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
-- ### **params.insert_length (HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE NUCLEÓTIDOS PROPORCIONADO EN ref_seq_path)**
+- ### **params.insert_length**
+(HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE NUCLEÓTIDOS PROPORCIONADO EN ref_seq_path)
 length of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. This parameter is important to filter merged reads according to their length: reads that differ by more than 20 nucleotides from the indicated length are not selected. 
 
 - ### **params.cutoff**
@@ -117,10 +118,11 @@ this cutoff is used to discard reads during the consensus construction: if the n
 params.cutoff = "2"
 ```
 
-- ### **params.bc_size (HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE Ns PROPORCIONADO EN ref_seq_path)**
+- ### **params.bc_size**
+(HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE Ns PROPORCIONADO EN ref_seq_path)
 
 - ### **params.threshold**
-this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment it is calculated the proportion of each nucleotide (or deletion). If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
+this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
 
 The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads for each position, otherwise an "N" will be incorporated. A threshold of 1 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletion) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold. Example:
 
@@ -177,19 +179,19 @@ The pipeline is built using Nextflow. Processing steps:
 
   
 - ### Step 2: Joining of paired reads and filtering by length
-  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: A file containing the assembled reads (`<sample_name>.assembled.fastq`), two files containing the forward and reverse unassembled reads (`<sample_name>.unassembled.forward.fastq` and `<sample_name>.unassembled.reverse.fastq`), and a file containing the discarded reads (`<sample_name>.discarded.fast`). Merged reads are then filtered according to their length (`<sample_name>.assembled_filtered.fastq`): reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
+  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
 	
 	<details markdown="1">
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `3_len_graphs/`
-			- `<sample_name>.assembled.fastq`:
-			- `<sample_name>.unassembled.forward.fastq`:
-			- `<sample_name>.unassembled.reverse.fastq`:
-			- `<sample_name>.discarded.fast`:
- 			- `<sample_name>.assembled_filtered.fastq`:
-			- `<sample_name>._lengths.txt`:
+			- `<sample_name>.assembled.fastq`: file containing the assembled reads by PEAR
+			- `<sample_name>.unassembled.forward.fastq`: file containing forward unassembled reads by PEAR
+			- `<sample_name>.unassembled.reverse.fastq`: file containing reverse unassembled reads by PEAR
+			- `<sample_name>.discarded.fast`: file containing discarded reads by PEAR
+ 			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 
+			- `<sample_name>._lengths.txt`: file with info about the assembled reads lengths. The first column is the length (in nucleotides) and the second column indicates the number of reads with the specified length
 	</details>
 
 				
