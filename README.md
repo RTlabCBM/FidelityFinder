@@ -43,9 +43,9 @@
 10. [References](#references)
 
 ## Introduction
-**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Next Generation Sequencing (NGS). 
+**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Next Generation Sequencing (NGS). 
 
-Fidelity determination is based on the "Primers IDs method". Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR and added the adaptor sequences to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are sequenced then by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline is able to discard PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, so it obtains and error rate. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
+Fidelity determination is based on the "Primers IDs method". Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR and adaptor sequences are added to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are sequenced then by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline is able to discard PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, so it obtains and error rate. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
 
 Primers IDs method to determine the fidelity of reverse transcriptases:
 
@@ -120,15 +120,25 @@ params.cutoff = "2"
 - **params.bc_size (HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE Ns PROPORCIONADO EN ref_seq_path)**
 
 - **params.threshold**
+this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment it is calculated the proportion of each nucleotide (or deletion). If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
+
+The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads for each position, otherwise an "N" will be incorporated. A threshold of 1 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletion) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold. Example:
+
+```console
+params.threshold = "0.9"
+```
+
+
+For each position of the sequences, it establishes the minimum proportion of reads that. This threshold allows values between 0 and 1. 
 
 - **params.min_pos**
-first position of the reference sequence used to quantify mutations. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contains a barcode, params.min_pos value should be 16. Example:
+first position of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contains a barcode, params.min_pos value should be 16. Example:
 ```console
 params.min_pos = "16"
 ```
 
 - **params.max_pos** 
-last position of the reference sequence used to quantify mutations. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contains a barcode, params.max_pos value should be 84. Example:
+last position of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contains a barcode, params.max_pos value should be 84. Example:
 ```console
 params.max_pos = "84"
 ```
