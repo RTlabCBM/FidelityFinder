@@ -146,7 +146,7 @@ Once you have created your config file with your own parameters, you have to run
 The pipeline is built using Nextflow. Processing steps:
 
 - ### Step 1: Quality Control
-  Quality analyses are performed over reads using [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) software.
+  Quality analyses are performed over reads using [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) software. It exports the results to an HTML-based permanent report.
 
 	<details markdown="1">
 	<summary>Output files</summary>
