@@ -28,7 +28,7 @@
 4. [Libray preparation](#library-preparation)
 5. [Pipeline overview](#pipeline-overview)
    * [Step 1: Quality Control](#step-1-quality-control)
-   * [Step 2: Joining of Paired Reads](#step-2-joining-of-paired-reads-and-filtering-by-length)
+   * [Step 2: Joining of Paired Reads and Filtering by Length](#step-2-joining-of-paired-reads-and-filtering-by-length)
    * [Step 3: Graph Lengths of the Merged Reads](#step-3-graph-lengths-of-the-merged-reads)
    * [Step 4: Obtain Sequences in Fasta Format](#step-4-obtain-sequences-in-fasta-format)
    * [Step 5: Obtain Consensus Sequences](#step-5-obtain-consensus-sequences)
