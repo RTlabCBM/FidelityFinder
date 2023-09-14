@@ -101,7 +101,7 @@ path of the file with the reference sequence, i.e., the sequence of the insert o
 params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
 ```
 
-<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides: </p>   
+And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides:
 
 ```console
 >insert_reference_sequence
@@ -124,11 +124,15 @@ params.cutoff = "2"
 - ### **params.threshold**
 this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
 
-The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads for each position, otherwise an "N" will be incorporated. A threshold of 1 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletion) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold. Example:
+The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads for each position, otherwise an "N" will be incorporated. Example:
 
 ```console
 params.threshold = "0.9"
 ```
+
+A threshold of 1 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletion) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold.
+
+
 
 - ### **params.min_pos**
 first position of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contains a barcode, params.min_pos value should be 16. Example:
