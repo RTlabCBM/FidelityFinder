@@ -30,7 +30,7 @@
    * [Step 1: Quality Control](#step-1-quality-control)
    * [Step 2: Joining of Paired Reads and Filtering by Length](#step-2-joining-of-paired-reads-and-filtering-by-length)
    * [Step 3: Graph Lengths of the Merged Reads](#step-3-graph-lengths-of-the-merged-reads)
-   * [Step 4: Obtain Sequences in Fasta Format](#step-4-obtain-sequences-in-fasta-format)
+   * [Step 4: Quality Filtering and FASTQ to FASTA conversion](#step-4-quality-filtering-and-fastq-to-fasta-conversion)
    * [Step 5: Obtain Consensus Sequences](#step-5-obtain-consensus-sequences)
    * [Step 6: Map Consensus Sequences](#step-6-map-consensus-sequences)
    * [Step 7: Variant Calling](#step-7-variant-calling)
@@ -167,7 +167,7 @@ It is possible to vary the way the libraries are prepared. For example, by addin
 The pipeline is built using Nextflow. Processing steps:
 
 - ### Step 1: Quality Control
-  Quality analyses are performed over reads using [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) software. It exports the results to an HTML-based permanent report.
+  Quality analyses are performed over reads (forward and reverse) using [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) software. It exports the results to an HTML-based permanent report.
 
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -194,6 +194,7 @@ The pipeline is built using Nextflow. Processing steps:
 			- `<sample_name>.unassembled.forward.fastq`: file containing forward unassembled reads by PEAR
 			- `<sample_name>.unassembled.reverse.fastq`: file containing reverse unassembled reads by PEAR
 			- `<sample_name>.discarded.fast`: file containing discarded reads by PEAR
+			- `<sample_name>_pear.log`: log file of the PEAR program
  			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 
 			- `<sample_name>._lengths.txt`: file with info about the assembled reads lengths. The first column is the length (in nucleotides) and the second column indicates the number of reads with the specified length
 	</details>
@@ -206,7 +207,8 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 ```
 
 - ### Step 3: Graph lengths of the merged reads
-  An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the previous step. It uses the `<sample_name>._lengths.txt` file as input.
+  An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the [previous step](#step-2-joining-of-paired-reads-and-filtering-by-length). It uses the `<sample_name>._lengths.txt` file as input.
+
 	<details markdown="1">
 	<summary>Output files</summary>
 		
@@ -218,27 +220,41 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 	</details>
 
 
-- ### Step 4: Obtain sequences in fasta format
+- ### Step 4: Quality Filtering and FASTQ to FASTA conversion
+  Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) are filtered according to their sequencing quality using the [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool. Selected reads are then converted into FASTA format using the [FASTQ-to-FASTA](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_to_fasta_usage) tool. 
+
+	<details markdown="1">
+	<summary>Output files</summary>
+		
+	- `Results/`
+	   - `4_quality_filtering/`
+			- `<sample_name>_qual_filtered.fastq`: fastq file with selected reads after filtering by sequencing quality
+			- `<sample_name>_fastq_quality_filter.log`: log file of the FASTQ Quality Filter program
+			- `<sample_name>_fastq_to_fasta.log`: fasta file with the selected reads after filtering by sequencing quality
+			- `<sample_name>_qual_filtered.fasta`: log file of the FASTQ-to-FASTA program
+
+	</details>
+
   
 - ### Step 5: Obtain consensus sequences
-  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors.
+  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [previous step](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
 
-  First of all, we take the assembled reads and split it in order to obtain the sequence and the barcode separately.
+  Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value, they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input.
 
-  Secondly, we performed a cut-off process leaving out of the study barcodes which had less than the lower cut-off value and more than the upper cut-off value sequences. With the rest of the sequences, we carried out a multiple alignment using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005). An absolute frequency matrix is obtained with scores per base position in the consensus sequence. The resulting files from this program execution are:
-  
+	Among the output files, a fasta file is generated with the obtained consensus sequences (used in the [next step](#step-6-map-consensus-sequences)) and a JSON file with the sequences of the identified barcodes and their frequencies (used in the [Step 9](#step-9-offspring-search-optional) to search for offspring barcodes).
+
 	<details markdown="1">
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `5_consensus/`
-			- `<sample_name>_consensus.fna`: a FASTA file with the barcode, number of sequences and consensus sequence in each case
+			- `<sample_name>_consensus.fna`: a FASTA file with the consensus sequences identified, the header of each sequence contains the barcode and the number of sequences used for consensus construction
 			- `<sample_name>_consensus.xls`: a summary of the results, showing the barcode, consensus and sequences per barcode	 
-			- `<sample_name>_consensus.prf`: the matrix with specific score per position in the consensus sequence
-			- `<sample_name>_discarded.txt`: a plain text file with sequences’ barcodes that didn’t fit the cutoff 
+			- `<sample_name>_consensus.prf`: a matrix with specific score per position in the consensus sequence
+			- `<sample_name>_discarded.txt`: a plain text file with sequences barcodes that did not fit the cutoff 
 			- `<sample_name>_consensus.png`: a scatter plot of the barcode distribution (without the cutoff step)
 			- `<sample_name>_cutoff_consensus.png`: a scatter plot of the barcode distribution (applying the cutoff step)
-        
+			- `<sample_name>_barcodes.json`: a JSON file with the sequences of the identified barcodes and their frequencies      
 	</details>
  
 
