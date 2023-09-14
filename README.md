@@ -183,7 +183,7 @@ The pipeline is built using Nextflow. Processing steps:
 
   
 - ### Step 2: Joining of paired reads and filtering by length
-  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
+  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
 	
 	<details markdown="1">
 	<summary>Output files</summary>
