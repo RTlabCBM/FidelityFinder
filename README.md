@@ -35,7 +35,7 @@
    * [Step 6: Map Consensus Sequences](#step-6-map-consensus-sequences)
    * [Step 7: Variant Calling](#step-7-variant-calling)
    * [Step 8: VCF Analysis](#step-8-vcf-analysis)
-   * [Step 9: Offspring Search (optional)](#step-9-offspring-search-optional)
+   * [Step 9: Offspring Search](#step-9-offspring-search)
 6. [Test data results](#test-data-results)
 7. [Extra content](#extra-content)
 8. [Creative Commons](#creative-commons)
@@ -241,7 +241,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
   Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value, they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input.
 
-	Among the output files, a fasta file is generated with the obtained consensus sequences (used in the [next step](#step-6-map-consensus-sequences)) and a JSON file with the sequences of the identified barcodes and their frequencies (used in the [Step 9](#step-9-offspring-search-optional) to search for offspring barcodes).
+	Among the output files, a fasta file is generated with the obtained consensus sequences (used in the [next step](#step-6-map-consensus-sequences)) and a JSON file with the sequences of the identified barcodes and their frequencies (used in the [Step 9](#step-9-offspring-search) to search for offspring barcodes).
 
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -302,8 +302,8 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 	</details>
 
 
-- ### Step 9: Offspring search (optional)
-  An in-house Python (v3.6) script is used to identify possible offspring barcodes. It uses the `<sample_name>_barcodes.json` of the [Step 5](#step-5-obtain-consensus-sequences) as input. It follows a similar strategy to the one described in Zhou et al., 2015. Two types of offspring barcodes are identified: **barcodes with 1 difference** with respect to other barcodes of equal or higher frequency and **barcodes with 2 differences** with respect to other barcodes of equal or higher frequency 
+- ### Step 9: Offspring search
+  An in-house Python (v3.6) script is used to identify possible offspring barcodes. It uses the `<sample_name>_barcodes.json` of the [Step 5](#step-5-obtain-consensus-sequences) as input. It follows a similar strategy to the one described in Zhou et al., 2015. Two types of offspring barcodes are identified: **barcodes with 1 difference** with respect to other barcodes of equal or higher frequency and **barcodes with 2 differences** with respect to other barcodes of equal or higher frequency. This step can be slow if the number of barcodes is high. It can be omitted if a faster analysis is desired.
 
 	<details markdown="1">
 	<summary>Output files</summary>
