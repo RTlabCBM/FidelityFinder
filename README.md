@@ -286,18 +286,18 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 	</details>
   
 - ### Step 8: VCF analysis
-  An in-house Python (v3.6) script is used to analyze the variants information of the `<sample_name>.vcf` file of the [Step 7](#step-7-variant-calling). The script creates a report (an excel file) with different data (table with variants, total number of variants, mutation rate...) and creates graphs showing the distribution of variants in the reference sequence, the distribution of indels, and a heatmap with the types of SNPs (if any).
+  An in-house Python (v3.6) script is used to analyze the variants information of the `<sample_name>.vcf` file of the [Step 7](#step-7-variant-calling). The script creates a report (an Excel file) with different data (table with variants, total number of variants, mutation rate...) and creates graphs showing the distribution of variants in the reference sequence, the distribution of indels, and a heatmap with the types of SNPs (if any).
   
 	<details>
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `8_vcf_analysis/`
-			- `<sample_name>_variants_distribution.png`:
-			- `<sample_name>_indels_distribution.png`:
-			- `<sample_name>_heatmap_snp_types.png`:
-			- `<sample_name>.xlsx`:
-			- `<sample_name>.csv`:
+			- `<sample_name>_variants_distribution.png`: a graph showing the number of variants detected in each position of the reference sequence
+			- `<sample_name>_indels_distribution.png`: a graph showing the number of indels detected in each position of the reference sequence
+			- `<sample_name>_heatmap_snp_types.png`: a heatmap chart with the proportion of the different SNP types detected
+			- `<sample_name>.xlsx`: an Excel file with different sheets containing tables and statistics of the variants detected
+			- `<sample_name>.csv`: a csv file with a list the variants detected in each position of the reference sequence
    
 	</details>
 
@@ -310,7 +310,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
 	- `Results/`
 	   - `9_offsprings/`
-			- `<sample_name>_differences.png`:
+			- `<sample_name>_differences.png`: a graph showing the distribution of barcodes according to their frequency and the distribution of barcodes with 1 or 2 differences with respect to other barcodes of equal or higher frequency.
    
 	</details>
 
