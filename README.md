@@ -96,7 +96,7 @@ params.seq_folder_path = "${baseDir}/RawReads/"
 ```
 
 - **params.ref_seq_path**  
-path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the Reads 1 of the NGS result. Example:
+path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the forward read (or read 1) of the NGS result. Example:
 ```console
 params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
 ```
