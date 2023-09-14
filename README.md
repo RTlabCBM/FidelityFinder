@@ -376,7 +376,7 @@ We politely request that this work be cited as:
 ### Main developer
 - Javier Martínez del Río
   
-### Colaborators
+### Collaborators
 - Estrella Frutos-Beltrán
 - Eva Castillo
 - Eva Sacristán
