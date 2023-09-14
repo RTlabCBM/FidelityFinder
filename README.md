@@ -125,7 +125,7 @@ params.cutoff = "2"
 - ### **params.threshold**
 this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
 
-The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads for each position, otherwise an "N" will be incorporated. Example:
+The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, for each position, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads, otherwise an "N" will be incorporated. Example:
 
 ```console
 params.threshold = "0.9"
