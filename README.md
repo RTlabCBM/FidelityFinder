@@ -187,7 +187,7 @@ The pipeline is built using Nextflow. Processing steps:
 			- `<sample_name>.assembled.fastq`:
 			- `<sample_name>.unassembled.forward.fastq`:
 			- `<sample_name>.unassembled.reverse.fastq`:
-			-  <sample_name>.discarded.fast`:
+			- `<sample_name>.discarded.fast`:
  			- `<sample_name>.assembled_filtered.fastq`:
 			- `<sample_name>._lengths.txt`:
 	</details>
