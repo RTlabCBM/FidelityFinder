@@ -161,24 +161,24 @@ The pipeline is built using Nextflow. Processing steps:
 	</details>
 
   
-- ### Step 2: Joining of paired reads
-	The first step is to join paired reads into one single sequence. This has been performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files. A file containing the assembled reads (assembled.fastq extension), two files containing the forward and reverse unassembled reads (unassembled.forward.fastq and unassembled.reverse.fastq extensions), and a file containing the discarded reads (discarded.fastq extension). We performed this method because it holds the adapters (including the barcode), which are interesting for our analysis. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected.
+- ### Step 2: Joining of paired reads and filtering by length
+  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (J. Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: A file containing the assembled reads (`<sample_name>.assembled.fastq`), two files containing the forward and reverse unassembled reads (`<sample_name>.unassembled.forward.fastq` and `<sample_name>.unassembled.reverse.fastq`), and a file containing the discarded reads (<sample_name>.discarded.fast`). Merged reads are then filtered according to their length (`<sample_name>.assembled_filtered.fastq`): reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
 	
 	<details markdown="1">
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `3_len_graphs/`
+			- `<sample_name>.assembled.fastq`:
 			- `<sample_name>.unassembled.forward.fastq`:
 			- `<sample_name>.unassembled.reverse.fastq`:
-			- `<sample_name>.discarded.fast`:
-			- `<sample_name>.assembled.fastq`:
+			-  <sample_name>.discarded.fast`:
  			- `<sample_name>.assembled_filtered.fastq`:
 			- `<sample_name>._lengths.txt`:
 	</details>
 
 				
-	 If you want to modify the ±20 nucleotides consideration, you have to 	change the "20" numbers found in the following line of `main.nf`:
+	 If you want to modify the ±20 nucleotides filter, you have to change the "20" numbers found in the following line of `main.nf`:
 
 ```console
 awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
