@@ -206,9 +206,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 ```
 
 - ### Step 3: Graph lengths of the merged reads
-An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the previous step. It uses the `<sample_name>._lengths.txt` file as input. 
-
-
+  An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the previous step. It uses the `<sample_name>._lengths.txt` file as input.
 	<details markdown="1">
 	<summary>Output files</summary>
 		
