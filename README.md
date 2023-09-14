@@ -207,7 +207,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 ```
 
 - ### Step 3: Graph lengths of the merged reads
-  An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the [previous step](#step-2-joining-of-paired-reads-and-filtering-by-length). It uses the `<sample_name>._lengths.txt` file as input.
+  An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length). It uses the `<sample_name>._lengths.txt` file as input.
 
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -237,7 +237,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
   
 - ### Step 5: Obtain consensus sequences
-  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [previous step](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
+  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [Step 4](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
 
   Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value, they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input.
 
@@ -260,25 +260,34 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
  
 - ### Step 6: Map consensus sequences
-  Reads from the `<sample_name>_consensus.fna` file of the [previous step](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterward, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
+  Reads from the `<sample_name>_consensus.fna` file of the [Step 5](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterward, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
 
 	<details>
 	<summary>Output files</summary>
 		
 	- `Results/`
 	   - `6_map_consensus/`
-			- `<sample_name>.sam`: a sam file
-    			- `<sample_name>.bam`: a bam file
+			- `<sample_name>.sam`: Sequence Alignment/Map (SAM) file of the consensus sequences
+    			- `<sample_name>.bam`: Binary Alignment Map file of the consensus sequences
 
         
 	</details>
 
 - ### Step 7: Variant calling
-  Aiming to calculate the frequency in which a variant is present in the consensus sequences compared to the reference genome we used the genetic variant detector software [FreeBayes](https://github.com/ekg/freebayes) (Garrison et al., 2012).
+  The variant detector software [FreeBayes](https://github.com/ekg/freebayes) (Garrison et al., 2012) is used to find the variants present in the consensus sequences. It uses the `<sample_name>.bam` file of the [Step 6](#step-6-map-consensus-sequences) as input.
+
+  	<details>
+	<summary>Output files</summary>
+		
+	- `Results/`
+	   - `7_vcf/`
+			- `<sample_name>.vcf`: Variant Call Format (VCF) file
+
+	</details>
   
 - ### Step 8: VCF analysis
-  We have created an in-house Python (v3.6) script to calculate error rate from the VCF file obatined in the previous step as well as graphs.
-
+  An in-house Python (v3.6) script is used to analyze the variants information of the `<sample_name>.vcf` file of the [Step 7](#step-7-variant-calling). The script creates a report (an excel file) with different data (table with variants, total number of variants, mutation rate...) and creates graphs showing the distribution of variants in the reference sequence, the distribution of indels, and a heatmap with the types of SNPs (if any).
+  
 	<details>
 	<summary>Output files</summary>
 		
@@ -294,7 +303,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
 
 - ### Step 9: Offspring search (optional)
-  Creates graphs similar to the ones described in Zhou et al., 2015.  
+  An in-house Python (v3.6) script is used to identify possible offspring barcodes. It uses the `<sample_name>_barcodes.json` of the [Step 5](#step-5-obtain-consensus-sequences) as input. It follows a similar strategy to the one described in Zhou et al., 2015. Two types of offspring barcodes are identified: **barcodes with 1 difference** with respect to other barcodes of equal or higher frequency and **barcodes with 2 differences** with respect to other barcodes of equal or higher frequency 
 
 	<details markdown="1">
 	<summary>Output files</summary>
