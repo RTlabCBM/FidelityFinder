@@ -1,59 +1,14 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
-version: 2.1
+machine:
+    java:
+        version: oraclejdk8
+    services:
+        - docker
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-  run-test:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run:
-          name: Install Java
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y openjdk-11-jdk
-      - run:
-          name: Install nextflow
-          command: |
-            echo $PATH
-            pwd
-            ls -la
-            curl -fsSL get.nextflow.io | bash
-            ls -la
-      - run:
-          name: Start Docker
-          command: |
-            sudo dockerd --experimental &
-            sleep 10 # Espera unos segundos para asegurarte de que Docker esté completamente iniciado
-            docker --version # Verifica la versión de Docker para asegurarte de que está disponible            
-      - run:
-          name: "Run test"
-          command: |
-            echo Running Test
-            sudo docker pull rtlabcbm/fidelityfinder_img:latest
-            nextflow run . -profile docker,test_profile
+dependencies:
+    override:
 
-
-            
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
-workflows:
-  say-hello-workflow:
-    jobs:
-      - say-hello
-      - run-test
+test:
+    override:
+        - docker pull cbcrg/lncrna_annotation
+        - curl -fsSL get.nextflow.io | bash
+        - ./nextflow run . -profile test
