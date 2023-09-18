@@ -38,15 +38,13 @@ jobs:
             curl -fsSL get.nextflow.io | bash
             ls -la
             ls /
-            ls /users
-            ls /Users
+
       - setup_remote_docker:
           version: 20.10.14       
       - run:
           name: "Run test"
           command: |
             echo Running Test
-            docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run . -profile docker,test_profile
       - store_test_results:
           path: /home/circleci/project
