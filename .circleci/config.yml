@@ -40,12 +40,14 @@ jobs:
           command: |
             echo Running Test
             sudo systemctl status docker
+            echo 1
             sudo systemctl start docker
+            echo 2
             docker pull rtlabcbm/fidelityfinder_img:latest
             nextflow run . -profile docker,test_profile
   run-test2:
     docker:
-      - image: nextflow/nextflow:stable
+      - image: nextflow/nextflow
     steps:
       - checkout
       - run:
