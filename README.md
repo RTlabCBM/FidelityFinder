@@ -9,7 +9,10 @@
         <img src="https://img.shields.io/badge/conda-%233eb049?logo=anaconda&logoColor=white" /></a>
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/python-%23306998?logo=python&logoColor=white" /></a>
+    <a href="https://dl.circleci.com/status-badge/redirect/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/circleci-project-setup">
+        <img src="https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/circleci-project-setup.svg?style=shield&circle-token=7c1136d7caa0d43d54a9e8041af0a703d904348e" /></a>	
 </p>
+
 
 <br>
 <br>
@@ -51,6 +54,8 @@ Fidelity determination is based on the "Primers IDs method". Each cDNA obtained 
 Primers IDs method to determine the fidelity of reverse transcriptases:
 
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
+
+
 
 ## Quick Start 
 1. Install [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) (>=23.04.2)
