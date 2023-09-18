@@ -19,14 +19,14 @@ jobs:
           command: "echo Hello, World!"
   run-test:
     docker:
-      - image: rtlabcbm/fidelityfinder_img:latest
+      - image: cimg/base:stable
     steps:
       - checkout
       - run:
           name: "Run test"
           command: |
-            docker pull rtlabcbm/fidelityfinder_img:latest
             echo Running Test
+            docker pull rtlabcbm/fidelityfinder_img:latest
             curl -fsSL get.nextflow.io | bash
             ./nextflow run . -profile docker,test_profile
           
