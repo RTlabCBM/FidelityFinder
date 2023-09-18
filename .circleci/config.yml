@@ -42,7 +42,7 @@ jobs:
             echo $PATH
             source ~/.bashrc
             echo $PATH
-            ~/miniconda3/bin/conda init bash
+            conda env list
       - setup_remote_docker:
           version: 20.10.14       
       - run:
