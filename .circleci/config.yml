@@ -26,6 +26,7 @@ jobs:
           name: "Run test"
           command: |
             echo Running Test
+            sudo service docker start
             docker pull rtlabcbm/fidelityfinder_img:latest
             curl -fsSL get.nextflow.io | bash
             ./nextflow run . -profile docker,test_profile
