@@ -37,6 +37,9 @@ jobs:
             ls -la
             curl -fsSL get.nextflow.io | bash
             ls -la
+            ls /
+            ls /users
+            ls /Users
       - setup_remote_docker:
           version: 20.10.14       
       - run:
