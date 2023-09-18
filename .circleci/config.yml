@@ -39,6 +39,8 @@ jobs:
           name: "Run test"
           command: |
             echo Running Test
+            sudo systemctl status docker
+            sudo systemctl start docker
             docker pull rtlabcbm/fidelityfinder_img:latest
             nextflow run . -profile docker,test_profile
   run-test2:
@@ -61,3 +63,4 @@ workflows:
     jobs:
       - say-hello
       - run-test
+      - run-test2
