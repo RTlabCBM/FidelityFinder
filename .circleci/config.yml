@@ -36,26 +36,18 @@ jobs:
             curl -fsSL get.nextflow.io | bash
             ls -la
       - run:
-          name: "Run test"
+          name: Start Docker
           command: |
-            echo Running Test
-            sudo systemctl status docker
-            echo 1
-            sudo systemctl start docker
-            echo 2
-            docker pull rtlabcbm/fidelityfinder_img:latest
-            nextflow run . -profile docker,test_profile
-  run-test2:
-    docker:
-      - image: nextflow/nextflow
-    steps:
-      - checkout
+            sudo dockerd --experimental &
+            sleep 10 # Espera unos segundos para asegurarte de que Docker esté completamente iniciado
+            docker --version # Verifica la versión de Docker para asegurarte de que está disponible            
       - run:
           name: "Run test"
           command: |
             echo Running Test
             docker pull rtlabcbm/fidelityfinder_img:latest
             nextflow run . -profile docker,test_profile
+
 
             
 # Orchestrate jobs using workflows
@@ -65,4 +57,3 @@ workflows:
     jobs:
       - say-hello
       - run-test
-      - run-test2
