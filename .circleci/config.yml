@@ -54,13 +54,11 @@ jobs:
             echo $PATH
             #docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run main.nf -profile conda,test_profile
+          no_output_timeout: 30m
       - store_test_results:
           path: /home/circleci/project
 
-          
-# Configuración de tiempo límite personalizado para el trabajo "mi-trabajo"
-# Aumenta el límite de tiempo a 30 minutos (1800 segundos)
-      timeout: 1800
+      
             
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
