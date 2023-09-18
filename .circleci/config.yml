@@ -25,10 +25,9 @@ jobs:
       - run:
           name: Install nextflow
           command: |
-            echo $PATH
-            ls /
-            cd /usr/bin
+            cd /usr/local/sbin
             curl -fsSL get.nextflow.io | bash
+            ls -la
       - run:
           name: "Run test"
           command: |
