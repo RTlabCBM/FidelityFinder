@@ -25,9 +25,9 @@ jobs:
       - run:
           name: "Run test"
           command: |
-          echo Running Test
-          curl -fsSL get.nextflow.io | bash
-          ./nextflow run . -profile docker,test_profile
+            echo Running Test
+            curl -fsSL get.nextflow.io | bash
+            ./nextflow run . -profile docker,test_profile
           
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
