@@ -25,7 +25,9 @@ jobs:
       - run:
           name: Install nextflow
           command: |
-            sudo cd /usr/local/sbin
+            echo $PATH
+            pwd
+            ls -la
             curl -fsSL get.nextflow.io | bash
             ls -la
       - run:
