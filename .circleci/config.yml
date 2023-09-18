@@ -49,6 +49,9 @@ jobs:
       - run:
           name: "Run test"
           command: |
+            echo $PATH
+            source /home/circleci/miniconda3/etc/profile.d/conda.sh
+            echo $PATH
             #docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run main.nf -profile conda,test_profile
       - store_test_results:
