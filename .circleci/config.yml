@@ -45,7 +45,8 @@ jobs:
           name: "Run test"
           command: |
             echo Running Test
-            ./nextflow run . -profile docker,test_profile
+            docker pull rtlabcbm/fidelityfinder_img:latest
+            ./nextflow run -profile docker,test_profile
       - store_test_results:
           path: /home/circleci/project
 
