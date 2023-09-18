@@ -39,11 +39,21 @@ jobs:
           name: "Run test"
           command: |
             echo Running Test
-            sudo /etc/init.d/docker start
             docker pull rtlabcbm/fidelityfinder_img:latest
-            curl -fsSL get.nextflow.io | bash
-            ./nextflow run . -profile docker,test_profile
-          
+            nextflow run . -profile docker,test_profile
+  run-test2:
+    docker:
+      - image: nextflow/nextflow:stable
+    steps:
+      - checkout
+      - run:
+          name: "Run test"
+          command: |
+            echo Running Test
+            docker pull rtlabcbm/fidelityfinder_img:latest
+            nextflow run . -profile docker,test_profile
+
+            
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
