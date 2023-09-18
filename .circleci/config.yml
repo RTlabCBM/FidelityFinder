@@ -44,7 +44,7 @@ jobs:
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             conda activate nombre_del_entorno_conda
             echo $PATH
-            conda env list
+            conda info --envs
       - setup_remote_docker:
           version: 20.10.14       
       - run:
