@@ -46,7 +46,7 @@ jobs:
             docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run . -profile docker,test_profile
       - store_test_results:
-          path: test-results
+          path: .
 
             
 # Orchestrate jobs using workflows
