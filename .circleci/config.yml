@@ -41,6 +41,8 @@ jobs:
             rm -rf ~/miniconda3/miniconda.sh
             echo $PATH
             source ~/.bashrc
+            source /home/circleci/miniconda3/etc/profile.d/conda.sh
+            conda activate nombre_del_entorno_conda
             echo $PATH
             conda env list
       - setup_remote_docker:
