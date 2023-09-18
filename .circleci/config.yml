@@ -45,7 +45,7 @@ jobs:
           name: "Run test"
           command: |
             echo Running Test
-            docker pull rtlabcbm/fidelityfinder_img:latest
+            sudo docker pull rtlabcbm/fidelityfinder_img:latest
             nextflow run . -profile docker,test_profile
 
 
