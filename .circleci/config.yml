@@ -32,6 +32,8 @@ jobs:
           command: |
             echo $PATH
             pwd
+            echo "whoami"
+            whoami
             ls -la
             curl -fsSL get.nextflow.io | bash
             ls -la
@@ -43,7 +45,8 @@ jobs:
             echo Running Test
             docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run . -profile docker,test_profile
-
+      - store_test_results:
+          path: test-results
 
             
 # Orchestrate jobs using workflows
