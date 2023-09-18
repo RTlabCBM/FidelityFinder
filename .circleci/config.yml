@@ -46,6 +46,7 @@ jobs:
           command: |
             echo Running Test
             docker pull rtlabcbm/fidelityfinder_img:latest
+            ./nextflow run https://github.com/RTlabCBM/FidelityFinder -profile docker,test_profile -r main
       - store_test_results:
           path: /home/circleci/project
 
