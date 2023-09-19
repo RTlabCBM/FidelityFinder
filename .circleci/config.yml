@@ -44,7 +44,7 @@ jobs:
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             #docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run main.nf -profile conda,test_profile2
-          no_output_timeout: 30m          
+          no_output_timeout: 180m          
       - store_artifacts:
           path: /home/circleci/project/Results
 
