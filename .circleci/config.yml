@@ -38,8 +38,13 @@ jobs:
             #docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run main.nf -profile conda,test_profile
           no_output_timeout: 30m
-      - store_test_results:
-          path: /home/circleci/project/Results
+      - run:
+          name: "Run test 2 using conda"
+          command: |
+            source /home/circleci/miniconda3/etc/profile.d/conda.sh
+            #docker pull rtlabcbm/fidelityfinder_img:latest
+            ./nextflow run main.nf -profile conda,test_profile2
+          no_output_timeout: 30m          
       - store_artifacts:
           path: /home/circleci/project/Results
 
