@@ -83,16 +83,27 @@ Primers IDs method to determine the fidelity of reverse transcriptases:
 Input parameters must be provided in your own config file. You have to add your own profile to the `nextflow.config` file of this repository. It must contain the following structure:
 
   ```console
- your_profile  {
-	params.seq_folder_path = "/folder/with/raw/sequences"
-	params.ref_seq_path = "/file/with/reference/sequence"
-	params.insert_length = "length of the library insert"
-	params.cutoff = "cutoff_value_to_discard_low_frequency_barcodes"
-	params.bc_size = "nucleotides_of_the_barcode"
-	params.threshold = "threshold_used_to_construct_consensus_sequences"
-	params.min_pos = "first position of the reference sequence used to quantify mutations"
-	params.max_pos = "last position of the reference sequence used to quantify mutations"
- }
+profiles {
+	conda {
+		conda.enabled = true
+		docker.enabled = false
+	}	
+	docker {
+		conda.enabled = false
+		docker.enabled = true
+		process.container = 'rtlabcbm/fidelityfinder_img2:latest' 		
+	}
+	 your_profile  {
+		params.seq_folder_path = "/folder/with/raw/sequences"
+		params.ref_seq_path = "/file/with/reference/sequence"
+		params.insert_length = "length of the library insert"
+		params.cutoff = "cutoff_value_to_discard_low_frequency_barcodes"
+		params.bc_size = "nucleotides_of_the_barcode"
+		params.threshold = "threshold_used_to_construct_consensus_sequences"
+		params.min_pos = "first position of the reference sequence used to quantify mutations"
+		params.max_pos = "last position of the reference sequence used to quantify mutations"
+ 	}
+}
   ```
 
 - ### **params.seq_folder_path**
