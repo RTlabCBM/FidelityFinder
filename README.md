@@ -331,7 +331,8 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
    
 	</details>
 
-
+  >[!TIP]
+  >The results of this step may be useful to assess whether the cutoff chosen in the analysis was appropriate, or to consider repeating the analysis with a new cutoff value.
 
 ## Test data results
 
