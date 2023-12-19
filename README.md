@@ -126,7 +126,6 @@ CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
 - ### **params.insert_length**
-(HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE NUCLEÓTIDOS PROPORCIONADO EN ref_seq_path)
 length of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. This parameter is important to filter merged reads according to their length: reads that differ by more than 20 nucleotides from the indicated length are not selected. 
 
 - ### **params.cutoff**
