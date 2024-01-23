@@ -134,9 +134,6 @@ this cutoff is used to discard reads during the consensus construction: if the n
 params.cutoff = "2"
 ```
 
-- ### **params.bc_size**
-(HARÉ QUE SE DETERMINE AUTOMÁTICAMENTE CONTANDO EN NÚMERO DE Ns PROPORCIONADO EN ref_seq_path)
-
 - ### **params.threshold**
 this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
 
