@@ -31,12 +31,35 @@ jobs:
           name: "Run nextflow pipeline using conda"
           command: |
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
-            #docker pull rtlabcbm/fidelityfinder_img:latest
             ./nextflow run main.nf -profile conda,test
           no_output_timeout: 30m      
       - store_artifacts:
           path: /home/circleci/project/Results
-
+  run-docker-test:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Install Java
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openjdk-11-jdk
+      - run:
+          name: Install nextflow
+          command: |
+            echo Install nextflow
+            curl -fsSL get.nextflow.io | bash
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: "Run nextflow pipeline using conda"
+          command: |
+            docker pull rtlabcbm/fidelityfinder_img2:latest
+            ./nextflow run main.nf -profile docker,test
+          no_output_timeout: 30m      
+      - store_artifacts:
+          path: /home/circleci/project/Results
 
 workflows:
   test-workflow:
