@@ -129,7 +129,7 @@ CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
 - ### **params.insert_length**
-length (integer number of nucleotides) of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. Example:
+length (integer number of nucleotides) of the library insert that has been sequenced, i.e., total length of the library except for the adaptors. Example:
 ```console
 params.insert_length = "536"
 ```
@@ -225,8 +225,8 @@ The pipeline is built using Nextflow. Processing steps:
 	</details>
 
   
-- ### Step 2: Joining of paired reads and filtering by length
-  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads. Merged reads are then filtered according to their length: reads that differ by more than 20 nucleotides from the reference insert length are not selected. 
+- ### Step 2: Joining of paired reads
+  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads.
 	
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -238,8 +238,7 @@ The pipeline is built using Nextflow. Processing steps:
 			- `<sample_name>.unassembled.reverse.fastq`: file containing reverse unassembled reads by PEAR
 			- `<sample_name>.discarded.fast`: file containing discarded reads by PEAR
 			- `<sample_name>_pear.log`: log file of the PEAR program
- 			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 
-			- `<sample_name>._lengths.txt`: file with info about the assembled reads lengths. The first column is the length (in nucleotides) and the second column indicates the number of reads with the specified length
+ 			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 			
 	</details>
 
 				
@@ -257,14 +256,21 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 		
 	- `Results/`
 	   - `3_len_graphs/`
+    			- `<sample_name>._lengths.txt`: file with info about the assembled reads lengths. The first column is the length (in nucleotides) and the second column indicates the number of reads with the specified length
 			- `<sample_name>_sequences_sizes_after_merging.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length)
 			- `<sample_name>_sequences_sizes_after_merging_logscale.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) using a log scale
 
 	</details>
 
 
-- ### Step 4: Quality Filtering and FASTQ to FASTA conversion
-  Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) are filtered according to their sequencing quality using the [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool. Selected reads are then converted into FASTA format using the [FASTQ-to-FASTA](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_to_fasta_usage) tool. 
+- ### Step 4:  Length and quality filtering | FASTQ to FASTA conversion
+  Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) are filtered.
+  Length filtering:
+  	Reads that differ by more than **params.length_tolerance** nucleotides from the **params.insert_length** are not selected.
+  Quality filtering:
+  	Reads are filtered according to the quality values specified in **params.minimum_quality_score** and **params.minimum_percent_quality_bases**. [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool is used.
+  FASTQ to FASTA conversion:
+  After filtering, selected reads are then converted into FASTA format using the [FASTQ-to-FASTA](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_to_fasta_usage) tool. 
 
 	<details markdown="1">
 	<summary>Output files</summary>
