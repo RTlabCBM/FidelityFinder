@@ -93,15 +93,18 @@ profiles {
 		docker.enabled = true
 		process.container = 'rtlabcbm/fidelityfinder_img2:latest' 		
 	}
-	 your_profile  {
-		params.seq_folder_path = "/folder/with/raw/sequences"
-		params.ref_seq_path = "/file/with/reference/sequence"
-		params.insert_length = "length of the library insert"
-		params.cutoff = "cutoff_value_to_discard_low_frequency_barcodes"
-		params.bc_size = "nucleotides_of_the_barcode"
-		params.threshold = "threshold_used_to_construct_consensus_sequences"
-		params.min_pos = "first position of the reference sequence used to quantify mutations"
-		params.max_pos = "last position of the reference sequence used to quantify mutations"
+	your_profile  {
+		params.seq_folder_path = "${baseDir}/raw_reads/"
+		params.ref_seq_path = "${baseDir}/reference_sequences/reference.fasta"
+		params.insert_length = "536"
+		params.length_tolerance = "20"
+		params.minimum_quality_score = "10"
+		params.minimum_percent_quality_bases = "90"
+		params.cutoff = "2"
+		params.threshold = "50"
+		params.min_pos = "23"
+		params.max_pos = "492"
+		params.cpus = "4"
  	}
 }
   ```
@@ -109,13 +112,13 @@ profiles {
 - ### **params.seq_folder_path**
 path of the folder where you have the raw sequences obtained by NGS. Files must have the following names: **<sample_name>_1.fastq** and **<sample_name>_2.fastq** for the forward and reverse sequences, respectively. You can also have them compressed: **<sample_name>_1.fastq.gz** and **<sample_name>_2.fastq.gz**. Example:
 ```console
-params.seq_folder_path = "${baseDir}/RawReads/"
+params.seq_folder_path = "${baseDir}/raw_reads/"
 ```
 
 - ### **params.ref_seq_path**
 path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the forward read (or read 1) of the NGS result. Example:
 ```console
-params.ref_seq_path = "${baseDir}/Sequences/insert_reference_sequence.fasta"
+params.ref_seq_path = "${baseDir}/reference_sequences/reference.fasta"
 ```
 
 And this would be an example of the content of the fasta file with an insert sequence that has a barcode of 14 nucleotides:
@@ -126,37 +129,64 @@ CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
 - ### **params.insert_length**
-length of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. This parameter is important to filter merged reads according to their length: reads that differ by more than 20 nucleotides from the indicated length are not selected. 
+length (integer number of nucleotides) of the library insert that has been sequenced, i.e. total length of the library except for the adaptors. Example:
+```console
+params.insert_length = "536"
+```
+
+- ### **params.length_tolerance**
+length (integer number of nucleotides) for filtering merged reads. This parameter is important to filter merged reads according to their length: reads that differ by more than **params.length_tolerance** nucleotides from the indicated **params.insert_length** are not selected. For example, if params.insert_length is set to 536, and params.length_tolerance is set to 20, this means that merged reads with lengths between 516 and 556 nucleotides (536 ± 20) will be considered for further analysis. Example:
+```console
+params.insert_length = "20"
+```
 
 - ### **params.cutoff**
-this cutoff is used to discard reads during the consensus construction: if the number of reads that share a barcode is equal to or lower than the cutoff, these reads will not be used. A minimum of 3 reads with the same barcode is needed to build an appropriate consensus sequence, so the minimum cutoff value should be 2. Example:
+this cutoff (integer number) is used to discard reads during the consensus construction: if the number of reads that share a barcode is equal to or lower than the cutoff, these reads will not be used. A minimum of 3 reads with the same barcode is needed to build an appropriate consensus sequence, so the minimum cutoff value should be 2. Example:
 ```console
 params.cutoff = "2"
 ```
 
-- ### **params.threshold**
-this threshold value is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned, and for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
-
-The threshold parameter admits values between 0 and 1. For example, if the threshold is 0.9 and there are 10 reads with the same barcode, for each position, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads, otherwise an "N" will be incorporated. Example:
-
+- ### **params.minimum_quality_score**
+minimum quality score (integer number) required to keep a sequence (also known as Phred quality score). Sequences with quality scores below this threshold will be filtered out. Use a value of 0 to retain all sequences and avoid quality filtering. Example:
 ```console
-params.threshold = "0.9"
+params.cutoff = "10"
 ```
 
-A threshold of 1 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletion) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold.
+- ### **params.minimum_percent_quality_bases**
+minimum percent of bases (integer number) that must have the specified quality score (**params.minimum_quality_score**). If the percentage of bases in a sequence with a quality score equal to or greater than **params.minimum_quality_score** is below this threshold, the sequence will be filtered out. Use a value of 0 to retain all sequences and avoid quality filtering. Example:
+```console
+params.cutoff = "90"
+```
+
+- ### **params.threshold**
+threshold percentage (integer number in the range 0-100) is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned and, for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
+
+The threshold parameter admits values between 0 and 100. For example, if the threshold is 90 and there are 10 reads with the same barcode, for each position, the consensus sequence is built using the nucleotides (or deletions) present in at least 9 of the reads, otherwise an "N" will be incorporated. Example:
+
+```console
+params.threshold = "90"
+```
+
+A threshold of 100 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletions) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold.
 
 
 
 - ### **params.min_pos**
-first position of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contains a barcode, params.min_pos value should be 16. Example:
+the first position (integer number) of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contain a barcode, params.min_pos value should be 16. Example:
 ```console
 params.min_pos = "16"
 ```
 
 - ### **params.max_pos**
-last position of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contains a barcode, params.max_pos value should be 84. Example:
+last position (integer number) of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the end of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the last 15 nucleotides (of an insert with a total length of 100 nucleotides) are a primer binding sequence during the library preparation and/or contain a barcode, params.max_pos value should be 84. Example:
 ```console
 params.max_pos = "84"
+```
+
+- ### **params.cpus**
+number of CPU cores (integer number) available to run the nextflow pipeline. This parameter specifies the computational resources the program can utilize for parallel processing. Set to 1 if you only want to use a single CPU core for its computations.
+```console
+params.cpus = "1"
 ```
 
 Once you have created your config file with your own parameters, you have to run the pipeline and specify the path of the config_file with -c <config_file> and the name of the profile with your specific parameters -profile my_profile
