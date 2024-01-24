@@ -28,7 +28,7 @@ jobs:
             echo $PATH
             conda info --envs     
       - run:
-          name: "Run nextflow pipeline using conda"
+          name: "Run nextflow pipeline using docker"
           command: |
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             ./nextflow run main.nf -profile conda,test
