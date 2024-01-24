@@ -56,6 +56,7 @@ jobs:
           name: "Run nextflow pipeline using docker"
           command: |
             docker pull rtlabcbm/fidelityfinder_img2:latest
+            docker run rtlabcbm/fidelityfinder_img2:latest
             ./nextflow run main.nf -profile docker,test
           no_output_timeout: 30m      
       - store_artifacts:
