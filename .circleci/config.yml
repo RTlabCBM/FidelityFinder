@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  run-test:
+  run-conda-test:
     docker:
       - image: cimg/base:stable
     steps:
@@ -26,11 +26,9 @@ jobs:
             source ~/.bashrc
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             echo $PATH
-            conda info --envs
-      - setup_remote_docker:
-          version: 20.10.14       
+            conda info --envs     
       - run:
-          name: "Run test using conda"
+          name: "Run nextflow pipeline using conda"
           command: |
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             #docker pull rtlabcbm/fidelityfinder_img:latest
@@ -43,4 +41,4 @@ jobs:
 workflows:
   test-workflow:
     jobs:
-      - run-test
+      - run-conda-test
