@@ -9,10 +9,9 @@
         <img src="https://img.shields.io/badge/conda-%233eb049?logo=anaconda&logoColor=white" /></a>
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/python-%23306998?logo=python&logoColor=white" /></a>
-    <a href="https://dl.circleci.com/status-badge/redirect/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/circleci-project-setup">
-        <img src="https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/circleci-project-setup.svg?style=shield&circle-token=aabef6eb37aa9b68531f2181f749c6a34568eea7" /></a>	
+    <a href="https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main.svg?style=svg">
+        <img src="https://dl.circleci.com/status-badge/redirect/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main" /></a>	
 </p>
-
 
 <br>
 <br>
