@@ -53,6 +53,11 @@ jobs:
             echo Install nextflow
             curl -fsSL get.nextflow.io | bash
       - run:
+            name: Install Docker client
+            command: apk add docker-cli
+      - setup_remote_docker:
+            version: edge
+      - run:
           name: "Run nextflow pipeline using docker"
           command: |
             docker pull rtlabcbm/fidelityfinder_img2:latest
