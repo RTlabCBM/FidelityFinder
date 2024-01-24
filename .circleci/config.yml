@@ -28,7 +28,7 @@ jobs:
             echo $PATH
             conda info --envs     
       - run:
-          name: "Run nextflow pipeline using docker"
+          name: "Run nextflow pipeline using conda"
           command: |
             source /home/circleci/miniconda3/etc/profile.d/conda.sh
             ./nextflow run main.nf -profile conda,test
@@ -53,7 +53,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: "Run nextflow pipeline using conda"
+          name: "Run nextflow pipeline using docker"
           command: |
             docker pull rtlabcbm/fidelityfinder_img2:latest
             ./nextflow run main.nf -profile docker,test
