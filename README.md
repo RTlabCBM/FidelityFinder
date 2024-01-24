@@ -13,8 +13,6 @@
         <img src="https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main.svg?style=shield&circle-token=7c1136d7caa0d43d54a9e8041af0a703d904348e" /></a>
 </p>
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main)
-
 <br>
 <br>
 
