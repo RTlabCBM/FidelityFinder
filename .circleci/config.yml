@@ -52,17 +52,24 @@ jobs:
           command: |
             echo Install nextflow
             curl -fsSL get.nextflow.io | bash
-      - run:
-            name: Install Docker client
-            command: sudo apt-get install -y docker-ce-cli
       - setup_remote_docker:
             version: edge
       - run:
-          name: "Run nextflow pipeline using docker"
-          command: |
-            docker pull rtlabcbm/fidelityfinder_img2:latest
-            ./nextflow run main.nf -profile docker,test
-          no_output_timeout: 30m      
+          name: "Check Docker version"
+          command: docker --version
+      
+      - run:
+          name: "Pull Docker Image"
+          command: docker pull rtlabcbm/fidelityfinder_img2:latest
+      
+      - run:
+          name: "Check Docker Image"
+          command: docker images
+      
+      - run:
+          name: "Run Nextflow Pipeline"
+          command: ./nextflow run main.nf -profile docker,test
+          no_output_timeout: 30m     
       - store_artifacts:
           path: /home/circleci/project/Results
       - store_artifacts:
