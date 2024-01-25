@@ -79,3 +79,4 @@ workflows:
   test-workflow:
     jobs:
       - run-conda-test
+      - run-dcoker-test
