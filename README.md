@@ -427,10 +427,6 @@ We politely request that this work be cited as:
   
 ### Collaborators
 - Estrella Frutos-Beltrán
-- Eva Castillo
-- Eva Sacristán
-- Sandra González
-- Ramón Peiró-Pastor
 
 ## References
 Garrison E, G. Marth (2012) Haplotype-based variant detection from short-read sequencing.
