@@ -406,7 +406,7 @@ All the Python scripts used in the pipeline are also accessible as independent J
 - [vcf_analyzer](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/vcf_analyzer.ipynb): finds variants in VCF files. Creates an excel file with different data (table with variants, total number of variants, mutation rate...) and graphs showing the distribution of variants in the reference sequence, the distribution of indels and a heatmap with the types of SNPs (if any).
 - [offsprings_finder](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/offsprings_finder.ipynb): finds possible offspring barcodes (barcodes generated due to errors in PCR reactions/sequencing reaction).
 
-Additionally, there are two extra Google Colab notebooks to further process the results of the pipeline:
+Additionally, there are three extra Google Colab notebooks to further process the results of the pipeline and simulate the pipeline:
 - [barcode_analyzer](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/barcode_analyzer.ipynb): creates a plot with a profile of the nucleotides present in barcodes
 - [hotspots_finder](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/hotspots_finder.ipynb): it can process mutations tables of several samples to analyze and plot total variants, indels and SNPs in common
 - [fidelity_finder_simulation](https://colab.research.google.com/github/RTlabCBM/FidelityFinderJupyter/blob/main/JupyterNotebooks/fidelity_finder_simulation.ipynb): it simulates an RT-PCR experiment incorporating cDNA barcoding and NGS sequencing
