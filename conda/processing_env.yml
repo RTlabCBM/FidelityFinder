@@ -1,0 +1,9 @@
+name: processing_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - fastqc
+  - pear
+  - fastx_toolkit
