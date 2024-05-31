@@ -251,8 +251,7 @@ The pipeline is built using Nextflow. Processing steps:
 
 	</details>
 
-
-- ### Step 4:  Length and quality filtering and FASTQ to FASTA conversion
+- ### Step 4: Length and quality filtering and FASTQ to FASTA conversion
   Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads) are filtered.
   Length filtering:
   	Reads that differ by more than **params.length_tolerance** nucleotides from the **params.insert_length** are not selected.
