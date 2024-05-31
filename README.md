@@ -225,7 +225,7 @@ The pipeline is built using Nextflow. Processing steps:
 
   
 - ### Step 2: Joining of paired reads
-  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (Zhang et al., 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads.
+  Paired reads are joined into one single sequence. This is performed using [PEAR](https://sco.h-its.org/exelixis/web/software/pear/doc.html) (Paired-End reAd mergeR) (Zhang *et al.*, 2014), a fast and accurate paired-end read merger. PEAR evaluates all possible paired-end read overlaps without requiring the target fragment size as input. In addition, it implements a statistical test for minimizing false-positive results. PEAR outputs four files: a file containing the assembled reads, two files containing the forward and reverse unassembled reads, and a file containing the discarded reads.
 	
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -280,7 +280,7 @@ The pipeline is built using Nextflow. Processing steps:
 - ### Step 5: Obtain consensus sequences
   An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and NGS errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [Step 4](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
 
-  Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value (**params.cutoff**), they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input (**params.threshold**).
+  Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value (**params.cutoff**), they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh *et al.*, 2005), and a consensus sequence is constructed using the threshold indicated as input (**params.threshold**).
 
 	Among the output files, a fasta file is generated with the obtained consensus sequences (used in the [next step](#step-6-map-consensus-sequences)) and a JSON file with the sequences of the identified barcodes and their frequencies (used in the [Step 9](#step-9-offspring-search) to search for offspring barcodes).
 
@@ -301,7 +301,7 @@ The pipeline is built using Nextflow. Processing steps:
 
  
 - ### Step 6: Map consensus sequences
-  Reads from the `<sample_name>_consensus.fna` file of the [Step 5](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterwards, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
+  Reads from the `<sample_name>_consensus.fna` file of the [Step 5](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterwards, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li *et al.*, 2009), which provides diverse utilities for manipulating alignments in SAM format.
 
 	<details>
 	<summary>Output files</summary>
@@ -315,7 +315,7 @@ The pipeline is built using Nextflow. Processing steps:
 	</details>
 
 - ### Step 7: Variant calling
-  The variant detector software [FreeBayes](https://github.com/ekg/freebayes) (Garrison et al., 2012) is used to find the variants present in the consensus sequences. It uses the `<sample_name>.bam` file of the [Step 6](#step-6-map-consensus-sequences) as input.
+  The variant detector software [FreeBayes](https://github.com/ekg/freebayes) (Garrison *et al.*, 2012) is used to find the variants present in the consensus sequences. It uses the `<sample_name>.bam` file of the [Step 6](#step-6-map-consensus-sequences) as input.
 
   	<details>
 	<summary>Output files</summary>
