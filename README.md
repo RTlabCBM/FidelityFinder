@@ -364,21 +364,21 @@ This is a summary of the expected results obtained running the pipeline with the
 
 - ### Step 3: Graph lengths of the merged reads
 `test_frequencies_distribution_graph.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_sequences_sizes_after_merging_logscale.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_lengths_distribution_logscale.png?raw=true)
 
 - ### Step 5: Obtain consensus sequences
 `<sample_name>_consensus.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_consensus.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_frequencies_distribution_graph.png?raw=true)
 
 - ### Step 8: VCF analysis
 `test_t50_variants_distribution.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_variants_distribution.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_t50_variants_distribution.png?raw=true)
   
 `test_t50heatmap_snp_types.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433heatmap_snp_types.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_t50heatmap_snp_types.png?raw=true)
   
 `test_t50.xlsx`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_error_rate.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_t50.xlsx.png?raw=true)
 
 - ### Step 9: Offspring search
 `test_percentage_differences.png`  
