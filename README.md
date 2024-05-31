@@ -350,7 +350,7 @@ The pipeline is built using Nextflow. Processing steps:
 
 	- `Results/`
 	   - `9_offsprings/`
-			- `<sample_name>_differences.png`: a graph showing the distribution of barcodes according to their frequency and the distribution of barcodes with 1 or 2 differences with respect to other barcodes of equal or higher frequency.
+			- `<sample_name>_differences.png`: a graph showing the distribution of barcodes according to their frequency and the distribution of barcodes with 1 or 2 differences with respect to other barcodes of higher frequency.
 			- `<sample_name>_percentage_differences.png`: a graph showing the distribution of barcodes using a percentages to show offspring barcodes
 			- `<sample_name>_offsprings_finder.log`: log file of the offsprings_finder.py program
 	</details>
