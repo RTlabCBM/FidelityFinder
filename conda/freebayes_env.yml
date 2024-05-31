@@ -1,8 +1,0 @@
-name: freebayes_env
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - freebayes=0.9.21
-  - samtools

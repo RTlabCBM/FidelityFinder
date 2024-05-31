@@ -1,8 +1,0 @@
-name: map_env
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bwa
-  - samtools
