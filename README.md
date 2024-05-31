@@ -46,11 +46,11 @@
 11. [References](#references)
 
 ## Introduction
-**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Next Generation Sequencing (NGS). 
+**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Single Strand Consensus Sequencing (SSCS). 
 
-Fidelity determination is based on the "Primers IDs method". Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR and adaptor sequences are added to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are sequenced then by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline discards PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, and it obtains an error rate comparing the consensus sequences obtained and their reference sequence. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
+Fidelity determination is based on the use of Unique Molecular Identifiers (UMIs) or barcodes. Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR, and adapter sequences are added to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are then sequenced by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline discards PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, and it obtains an error rate comparing the consensus sequences obtained and their reference sequence. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
 
-Primers IDs method to determine the fidelity of reverse transcriptases:
+Single Strand Consensus Sequencing method to determine the fidelity of reverse transcriptases:
 
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Primers_IDs_method.PNG?raw=true)
 
@@ -115,7 +115,7 @@ params.seq_folder_path = "${baseDir}/raw_reads/"
 ```
 
 - ### **params.ref_seq_path**
-path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the forward read (or read 1) of the NGS result. Example:
+path of the file with the reference sequence, i.e., the sequence of the insert of the library (without mutations). The barcode/s sequence/s must be indicated with as many "N" as nucleotides the barcode has. It should be written in the same 5'-->3' sense of the forward reads (or Reads 1s) of the NGS result. Example:
 ```console
 params.ref_seq_path = "${baseDir}/reference_sequences/reference.fasta"
 ```
@@ -128,7 +128,7 @@ CTTCCTACAAGGGAATTGGAGGTGGAATGGATGGCCCAAAAGTTAAACNNNNNNNNNNNNNNACCTT
 ```
 
 - ### **params.insert_length**
-length (integer number of nucleotides) of the library insert that has been sequenced, i.e., total length of the library except for the adaptors. Example:
+length (integer number of nucleotides) of the library insert that has been sequenced, i.e., total length of the library except for the adapter sequences. Example:
 ```console
 params.insert_length = "536"
 ```
@@ -188,15 +188,15 @@ number of CPU cores (integer number) available to run the nextflow pipeline. Thi
 params.cpus = "1"
 ```
 
-Once you have created your config file with your own parameters, you have to run the pipeline and specify the path of the config_file with -c <config_file> and the name of the profile with your specific parameters -profile my_profile
+Once you have created your config file with your own parameters, you have to run the pipeline and specify the path of the config_file with `-c <config_file>`, and the name of the profile with your specific parameters: `-profile my_profile`.
 
 ## Library preparation
 
 One way to prepare the libraries is as follows: 
 1. **Reverse transcription** step using a primer with an overhang that contains a barcode sequence
-2. **PCR** step to incorporate the adapter sequences
+2. **PCR** step to amplify obtained cDNAs and incorporate the adapter sequences
 3. **Next Generation Sequencing**: short-read sequencing technology in paired-end mode
-4. **Analysis** of the fastq files (forward and reverse reads, or read 1 and read 2) with [FidelityFinder](#pipeline-overview )
+4. **Analysis** of the fastq files (forward and reverse reads, or Reads 1 and Reads 2) with [FidelityFinder](#pipeline-overview )
 
 ![Workflow](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/Library_preparation_workflow.PNG?raw=true)
 
@@ -240,13 +240,6 @@ The pipeline is built using Nextflow. Processing steps:
  			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 			
 	</details>
 
-				
-	 If you want to modify the ±20 nucleotides filter, you have to change the "20" numbers found in the following line of `main.nf`:
-
-```console
-awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >= ("${params.insert_length}"-20) && length(seq) <= ("${params.insert_length}"+20)) {print header, seq, qheader, qseq}}' "${sampleId}.assembled.fastq" > "${sampleId}.assembled_filtered.fastq"
-```
-
 - ### Step 3: Graph lengths of the merged reads
   An in-house Python (v3.6) script is used to graph the lengths of the assembled reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length). It uses the `<sample_name>._lengths.txt` file as input.
 
@@ -285,9 +278,9 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
   
 - ### Step 5: Obtain consensus sequences
-  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and RT errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [Step 4](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
+  An in-house Python (v3.6) script is used to calculate the consensus sequences by barcode aiming to resolve PCR and NGS errors. First, the sequences from the `<sample_name>_qual_filtered.fasta` file of the [Step 4](#step-4-quality-filtering-and-fastq-to-fasta-conversion) are aligned with respect to the reference sequence. The barcode sequence is identified by matching the nucleotides marked as "N" in the reference sequence. If the barcode identified has the same length as the barcode of the reference sequence, the read is selected. If there is more than one barcode in the reference sequence, the identified barcode will be the concatenation of them. 
 
-  Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value, they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input.
+  Secondly, the sequences that share the same barcode are grouped together. If the number of sequences with the same barcode is equal to or lower than the input cutoff value (**params.cutoff**), they are discarded. The selected reads sharing a barcode are then aligned using [MAFFT](https://mafft.cbrc.jp/alignment/software/) software (Katoh et al., 2005), and a consensus sequence is constructed using the threshold indicated as input (**params.threshold**).
 
 	Among the output files, a fasta file is generated with the obtained consensus sequences (used in the [next step](#step-6-map-consensus-sequences)) and a JSON file with the sequences of the identified barcodes and their frequencies (used in the [Step 9](#step-9-offspring-search) to search for offspring barcodes).
 
@@ -308,7 +301,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
  
 - ### Step 6: Map consensus sequences
-  Reads from the `<sample_name>_consensus.fna` file of the [Step 5](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterward, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
+  Reads from the `<sample_name>_consensus.fna` file of the [Step 5](#step-5-obtain-consensus-sequences) are aligned to the reference sequence using the [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) software package, which employs the Burrows-Wheeler Alignment tool. Afterwards, alignments are sorted with [SAMTools](https://github.com/samtools/samtools) package (Li et al., 2009), which provides diverse utilities for manipulating alignments in SAM format.
 
 	<details>
 	<summary>Output files</summary>
@@ -334,7 +327,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 	</details>
   
 - ### Step 8: VCF analysis
-  An in-house Python (v3.6) script is used to analyze the variants information of the `<sample_name>.vcf` file of the [Step 7](#step-7-variant-calling). The script creates a report (an Excel file) with different data (table with variants, total number of variants, mutation rate...) and creates graphs showing the distribution of variants in the reference sequence, the distribution of indels, and a heatmap with the types of SNPs (if any).
+  An in-house Python (v3.6) script is used to analyze the variants information of the `<sample_name>.vcf` file of the [Step 7](#step-7-variant-calling). The script creates a report (an Excel file) with different data (table with variants, total number of variants, error rate...) and creates graphs showing the distribution of variants in the reference sequence, the distribution of indels, and a heatmap with the types of SNPs (if any).
   
 	<details>
 	<summary>Output files</summary>
@@ -351,7 +344,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 
 
 - ### Step 9: Offspring search
-  An in-house Python (v3.6) script is used to identify possible offspring barcodes. It uses the `<sample_name>_barcodes.json` of the [Step 5](#step-5-obtain-consensus-sequences) as input. It follows a similar strategy to the one described in Zhou et al., 2015. Two types of offspring barcodes are identified: **barcodes with 1 difference** with respect to other barcodes of equal or higher frequency and **barcodes with 2 differences** with respect to other barcodes of equal or higher frequency. This step can be slow if the number of barcodes is high. It can be omitted if a faster analysis is desired.
+  An in-house Python (v3.6) script is used to identify possible offspring barcodes. It uses the `<sample_name>_barcodes.json` of the [Step 5](#step-5-obtain-consensus-sequences) as input. It follows a similar strategy to the one described in Zhou *et al.*, 2015. Two types of offspring barcodes are identified: **barcodes with 1 difference** with respect to other barcodes of higher frequency and **barcodes with 2 differences** with respect to other barcodes of higher frequency. This step can be slow if the number of barcodes is high. It can be omitted if a faster analysis is desired.
 
 	<details markdown="1">
 	<summary>Output files</summary>
@@ -363,7 +356,7 @@ awk 'BEGIN {FS = "\\t" ; OFS = "\\n"} {header = \$0 ; getline seq ; getline qhea
 	</details>
  
 >[!TIP]
->The results of the last step (Offspring search) may be useful to assess whether the cutoff chosen in the analysis was appropriate, or to consider repeating the analysis with a new cutoff value.
+>The results of the last step (Offspring search) may be useful to assess whether the cutoff chosen in the analysis was appropriate, or to consider repeating the analysis with a new cutoff value to avoid taking into account offspring barcodes.
 
 ## Test data results
 
@@ -420,6 +413,7 @@ FidelityFinder includes several third-party packages provided under other open s
 
 ## Citation  
 We politely request that this work be cited as:  
+(Citation details are not yet available)
 
 ## Developers
 ### Main developer
@@ -430,14 +424,14 @@ We politely request that this work be cited as:
 
 ## References
 Garrison E, G. Marth (2012) Haplotype-based variant detection from short-read sequencing.
-arXiv:1207.3907 [q-bio.GN]
+arXiv:1207.3907 [q-bio.GN].
 
 Katoh K., K. Kuma, H. Toh, T. Miyata (2005) MAFFT version 5: improvement in accuracy of
-multiple sequence alignment. Nucleic Acids Research 33(2): 511–8
+multiple sequence alignment. Nucleic Acids Research 33(2): 511–8.
 
 Li H., B. Handsaker, A. Wysoker, T. Fennell, J. Ruan, N. Homer, G. Marth, G. Abecasis, R.
 Durbin, 1000 Genome Project Data Processing Subgroup (2009) The Sequence alignment/map
-(SAM) format and SAMtools. Bioinformatics 25(16): 2078–2079
+(SAM) format and SAMtools. Bioinformatics 25(16): 2078–2079.
 
 Zhang J., K. Kobert, T. Flouri, A. Stamatakis (2014) PEAR: A fast and accurate Illumina
 Paired-End reAd merger. Bioinformatics 30(5): 614–620.
