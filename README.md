@@ -362,12 +362,8 @@ The pipeline is built using Nextflow. Processing steps:
 
 This is a summary of the expected results obtained running the pipeline with the test data (as indicated in [Quick Start](#quick-start)).
 
-- ### Step 1: Quality Control
-`<sample_name>_1_fastqc*.html`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/QC_1.png?raw=true)
-
 - ### Step 3: Graph lengths of the merged reads
-`<sample_name>_sequences_sizes_after_merging_logscale.png`  
+`test_frequencies_distribution_graph.png`  
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_sequences_sizes_after_merging_logscale.png?raw=true)
 
 - ### Step 5: Obtain consensus sequences
@@ -375,16 +371,13 @@ This is a summary of the expected results obtained running the pipeline with the
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_consensus.png?raw=true)
 
 - ### Step 8: VCF analysis
-`<sample_name>_variants_distribution.png`  
+`test_t50_variants_distribution.png`  
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_variants_distribution.png?raw=true)
   
-`<sample_name>_indels_distribution.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_indels_distribution.png?raw=true)
-  
-`<sample_name>_heatmap_snp_types.png`  
+`test_t50heatmap_snp_types.png`  
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433heatmap_snp_types.png?raw=true)
   
-`<sample_name>.xlsx`  
+`test_t50.xlsx`  
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_error_rate.png?raw=true)
 
 - ### Step 9: Offspring search
