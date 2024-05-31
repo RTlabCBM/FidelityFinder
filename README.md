@@ -32,7 +32,7 @@
    * [Step 1: Quality Control](#step-1-quality-control)
    * [Step 2: Joining of Paired Reads](#step-2-joining-of-paired-reads)
    * [Step 3: Graph Lengths of the Merged Reads](#step-3-graph-lengths-of-the-merged-reads)
-   * [Step 4: Length and Quality Filtering and FASTQ to FASTA conversion](#step-4-length-and-quality-filtering-and-FASTQ-to-FASTA-conversion)
+   * [Step 4: Length and Quality Filtering and FASTQ to FASTA conversion](#step-4-length-and-quality-filtering-and-fastq-to-fasta-conversion)
    * [Step 5: Obtain Consensus Sequences](#step-5-obtain-consensus-sequences)
    * [Step 6: Map Consensus Sequences](#step-6-map-consensus-sequences)
    * [Step 7: Variant Calling](#step-7-variant-calling)
