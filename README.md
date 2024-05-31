@@ -382,7 +382,7 @@ This is a summary of the expected results obtained running the pipeline with the
 
 - ### Step 9: Offspring search
 `test_percentage_differences.png`  
-![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
+![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_output_images/test_percentage_differences.png?raw=true)
 
 ## Extra content
 All the Python scripts used in the pipeline are also accessible as independent Jupyter Notebooks (available at [FideltyFinderJupyter](https://github.com/RTlabCBM/FidelityFinderJupyter)). They can be opened with the following Google Colab links:
