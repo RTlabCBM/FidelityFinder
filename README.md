@@ -139,12 +139,6 @@ length (integer number of nucleotides) for filtering merged reads. This paramete
 params.insert_length = "20"
 ```
 
-- ### **params.cutoff**
-this cutoff (integer number) is used to discard reads during the consensus construction: if the number of reads that share a barcode is equal to or lower than the cutoff, these reads will not be used. A minimum of 3 reads with the same barcode is needed to build an appropriate consensus sequence, so the minimum cutoff value should be 2. Example:
-```console
-params.cutoff = "2"
-```
-
 - ### **params.minimum_quality_score**
 minimum quality score (integer number) required to keep a sequence (also known as Phred quality score). Sequences with quality scores below this threshold will be filtered out. Use a value of 0 to retain all sequences and avoid quality filtering. Example:
 ```console
@@ -157,6 +151,12 @@ minimum percent of bases (integer number) that must have the specified quality s
 params.cutoff = "90"
 ```
 
+- ### **params.cutoff**
+this cutoff (integer number) is used to discard reads during the consensus construction: if the number of reads that share a barcode is equal to or lower than the cutoff, these reads will not be used. A minimum of 3 reads with the same barcode is needed to build an appropriate consensus sequence, so the minimum cutoff value should be 2. Example:
+```console
+params.cutoff = "2"
+```
+
 - ### **params.threshold**
 threshold percentage (integer number in the range 0-100) is used to determine the consensus sequences of several reads with the same barcode. Sequences that share a barcode are aligned and, for each position of the alignment, the proportion of each nucleotide (or deletion) is calculated. If the proportion of one nucleotide (or deletion) is equal to or higher than the threshold, the nucleotide (or deletion) is added to the consensus sequence of the aligned reads, otherwise an "N" will be incorporated and not taken into account as a position with an error.
 
@@ -167,8 +167,6 @@ params.threshold = "90"
 ```
 
 A threshold of 100 would be more strict, each position must have the same nucleotide (or deletion) in all the aligned reads; while a threshold of 0 would mean that the consensus sequence is built using the nucleotides (or deletions) that are present in the majority of the aligned reads, for each position. If for a given position there is no majority nucleotide (or deletion), e.g. in 50% of the reads there is a "T" and in the other 50% a "C",  an "N" is always added to the consensus sequence, regardless of the chosen threshold.
-
-
 
 - ### **params.min_pos**
 the first position (integer number) of the reference sequence used to quantify mutations during the VCF analysis step. This parameter is useful to not consider the beginning of the library insert in case it contains a sequence that does not come directly from the cDNA synthesized during the reverse transcription. For example, if the first 15 nucleotides of your insert are a primer binding sequence during the library preparation and/or contain a barcode, params.min_pos value should be 16. Example:
@@ -215,7 +213,7 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `1_fastqc_results/`
+	   - `1_quality_control/`
     		- `<sample_name>_1_fastqc*.html`: html file
       		- `<sample_name>_1_fastqc*.zip`: zip file	 
     		- `<sample_name>_2_fastqc*.html`: html file
@@ -231,13 +229,12 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `2_pear/`
+	   - `2_merged_reads/`
 			- `<sample_name>.assembled.fastq`: file containing the assembled reads by PEAR
 			- `<sample_name>.unassembled.forward.fastq`: file containing forward unassembled reads by PEAR
 			- `<sample_name>.unassembled.reverse.fastq`: file containing reverse unassembled reads by PEAR
 			- `<sample_name>.discarded.fast`: file containing discarded reads by PEAR
 			- `<sample_name>_pear.log`: log file of the PEAR program
- 			- `<sample_name>.assembled_filtered.fastq`: assembled reads with lengths of up to ±20 nucleotides with respect to the reference insert length 			
 	</details>
 
 - ### Step 3: Graph lengths of the merged reads
@@ -247,10 +244,10 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `3_len_graphs/`
+	   - `3_reads_lengths_graphs/`
     			- `<sample_name>._lengths.txt`: file with info about the assembled reads lengths. The first column is the length (in nucleotides) and the second column indicates the number of reads with the specified length
-			- `<sample_name>_sequences_sizes_after_merging.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length)
-			- `<sample_name>_sequences_sizes_after_merging_logscale.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) using a log scale
+			- `<sample_name>_lengths_distribution.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length)
+			- `<sample_name>_lengths_distribution_logscale.png`: graph with the lengths of the merged reads of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) using a log scale
 
 	</details>
 
@@ -260,7 +257,7 @@ The pipeline is built using Nextflow. Processing steps:
   Length filtering:
   	Reads that differ by more than **params.length_tolerance** nucleotides from the **params.insert_length** are not selected.
   Quality filtering:
-  	Reads are filtered according to the quality values specified in **params.minimum_quality_score** and **params.minimum_percent_quality_bases**. [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool is used.
+  	Reads are filtered according to the quality values specified in **params.minimum_quality_score** and **params.minimum_percent_quality_bases**. [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool is used. A quality control (see [Step 1](#step-2-quality-control)) is performed before and after quality filters. 
   FASTQ to FASTA conversion:
   After filtering, selected reads are then converted into FASTA format using the [FASTQ-to-FASTA](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_to_fasta_usage) tool. 
 
@@ -268,12 +265,16 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `4_quality_filtering/`
-			- `<sample_name>_qual_filtered.fastq`: fastq file with selected reads after filtering by sequencing quality
+	   - `4_fasta_sequences_quality_filtered/`
 			- `<sample_name>_fastq_quality_filter.log`: log file of the FASTQ Quality Filter program
-			- `<sample_name>_fastq_to_fasta.log`: fasta file with the selected reads after filtering by sequencing quality
-			- `<sample_name>_qual_filtered.fasta`: log file of the FASTQ-to-FASTA program
-
+			- `<sample_name>_fastq_to_fasta.log`: log file of the FASTQ-to-FASTA program  
+			- `<sample_name>_lengths_and_qual_filtered.fasta`: fasta file with the selected reads after filtering by length and sequencing quality
+        		- `<sample_name>_lengths_and_qual_filtered.fastq`: fastq file with the selected reads after filtering by length and sequencing quality
+  			- `<sample_name>_lengths_filtered.fastq`: fastq file with the selected reads after filtering by length     
+			- `<sample_name>_lengths_and_qual_filtered_fastqc.html`: html file with quality information after length and sequencing quality filtering
+			- `<sample_name>_lengths_and_qual_filtered_fastqc.zip`: zip file with quality information after length and sequencing quality filtering
+ 			- `<sample_name>_lengths_filtered_fastqc.html`: html file with quality information after length filtering
+			- `<sample_name>_lengths_filtered_fastqc.zip`: zip file with quality information after length filtering    
 	</details>
 
   
@@ -288,14 +289,13 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `5_consensus/`
-			- `<sample_name>_consensus.fna`: a FASTA file with the consensus sequences identified, the header of each sequence contains the barcode and the number of sequences used for consensus construction
-			- `<sample_name>_consensus.xls`: a summary of the results, showing the barcode, consensus and sequences per barcode	 
+	   - `5_consensus_sequences/`
+     			- `<sample_name>_barcodes.json`: a JSON file with the sequences of the identified barcodes and their frequencies      
 			- `<sample_name>_consensus.prf`: a matrix with specific score per position in the consensus sequence
+			- `<sample_name>_consensus_construction.log`: log file of the consensus_construction.py program
 			- `<sample_name>_discarded.txt`: a plain text file with sequences barcodes that did not fit the cutoff 
-			- `<sample_name>_consensus.png`: a scatter plot of the barcode distribution (without the cutoff step)
-			- `<sample_name>_cutoff_consensus.png`: a scatter plot of the barcode distribution (applying the cutoff step)
-			- `<sample_name>_barcodes.json`: a JSON file with the sequences of the identified barcodes and their frequencies      
+			- `<sample_name>_frequencies_distribution_graph.png`: a scatter plot of the barcode distribution
+			- `<sample_name>_t<params.threshold>_consensus.fna`: a FASTA file with the consensus sequences identified, the header of each sequence contains the barcode and the number of sequences used for consensus construction
 	</details>
  
 
@@ -307,9 +307,9 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `6_map_consensus/`
-			- `<sample_name>.sam`: Sequence Alignment/Map (SAM) file of the consensus sequences
-    			- `<sample_name>.bam`: Binary Alignment Map file of the consensus sequences
+	   - `6_mapped_consensus_sequences/`
+			- `<sample_name>_t<params.threshold>_align.sam`: Sequence Alignment/Map (SAM) file of the consensus sequences
+    			- `<sample_name>_t<params.threshold>_align_sort`: Binary Alignment Map file of the consensus sequences
 
         
 	</details>
@@ -321,8 +321,8 @@ The pipeline is built using Nextflow. Processing steps:
 	<summary>Output files</summary>
 		
 	- `Results/`
-	   - `7_vcf/`
-			- `<sample_name>.vcf`: Variant Call Format (VCF) file
+	   - `7_vcf_file/`
+			- `<sample_name>_t<params.threshold>.vcf`: Variant Call Format (VCF) file
 
 	</details>
   
@@ -334,11 +334,11 @@ The pipeline is built using Nextflow. Processing steps:
 		
 	- `Results/`
 	   - `8_vcf_analysis/`
-			- `<sample_name>_variants_distribution.png`: a graph showing the number of variants detected in each position of the reference sequence
-			- `<sample_name>_indels_distribution.png`: a graph showing the number of indels detected in each position of the reference sequence
-			- `<sample_name>_heatmap_snp_types.png`: a heatmap chart with the proportion of the different SNP types detected
-			- `<sample_name>.xlsx`: an Excel file with different sheets containing tables and statistics of the variants detected
-			- `<sample_name>.csv`: a csv file with a list the variants detected in each position of the reference sequence
+			- `<sample_name>_t<params.threshold>_variants_distribution.png`: a graph showing the number of variants detected in each position of the reference sequence
+			- `<sample_name>_t<params.threshold>_indels_distribution.png`: a graph showing the number of indels detected in each position of the reference sequence
+			- `<sample_name>_t<params.threshold>_heatmap_snp_types.png`: a heatmap chart with the proportion of the different SNP types detected
+			- `<sample_name>_t<params.threshold>.xlsx`: an Excel file with different sheets containing tables and statistics of the variants detected
+			- `<sample_name>_t<params.threshold>.csv`: a csv file with a list the variants detected in each position of the reference sequence
    
 	</details>
 
@@ -352,7 +352,8 @@ The pipeline is built using Nextflow. Processing steps:
 	- `Results/`
 	   - `9_offsprings/`
 			- `<sample_name>_differences.png`: a graph showing the distribution of barcodes according to their frequency and the distribution of barcodes with 1 or 2 differences with respect to other barcodes of equal or higher frequency.
-   
+			- `<sample_name>_percentage_differences.png`: a graph showing the distribution of barcodes using a percentages to show offspring barcodes
+			- `<sample_name>_offsprings_finder.log`: log file of the offsprings_finder.py program
 	</details>
  
 >[!TIP]
