@@ -256,7 +256,7 @@ The pipeline is built using Nextflow. Processing steps:
   Length filtering:
   	Reads that differ by more than **params.length_tolerance** nucleotides from the **params.insert_length** are not selected.
   Quality filtering:
-  	Reads are filtered according to the quality values specified in **params.minimum_quality_score** and **params.minimum_percent_quality_bases**. [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool is used. A quality control (see [Step 1](#step-2-quality-control)) is performed before and after quality filters. 
+  	Reads are filtered according to the quality values specified in **params.minimum_quality_score** and **params.minimum_percent_quality_bases**. [FASTQ Quality Filter](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) tool is used. A quality control (see [Step 1](#step-1-quality-control)) is performed before and after quality filters. 
   FASTQ to FASTA conversion:
   After filtering, selected reads are then converted into FASTA format using the [FASTQ-to-FASTA](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_to_fasta_usage) tool. 
 
