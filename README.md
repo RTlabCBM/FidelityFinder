@@ -381,7 +381,7 @@ This is a summary of the expected results obtained running the pipeline with the
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_error_rate.png?raw=true)
 
 - ### Step 9: Offspring search
-`<sample_name>_differences.png`  
+`test_percentage_differences.png`  
 ![image](https://github.com/RTlabCBM/FidelityFinder/blob/main/docs/images/test_sample_output_images/O3MQ178433_differences.png?raw=true)
 
 ## Extra content
