@@ -61,7 +61,7 @@ Single Strand Consensus Sequencing method to determine the fidelity of reverse t
 2. Install [Docker](https://docs.docker.com/get-docker/) or [Conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html#regular-installation) 
 3. Run the pipeline with the test data provided:
    ```console
-   nextflow run https://github.com/RTlabCBM/FidelityFinder -profile <conda/docker>,test_profile -r main
+   nextflow run https://github.com/RTlabCBM/FidelityFinder -profile <conda/docker>,test -r main
    ```
    > - Replace `<conda/docker>` for `conda` or `docker` depending on your election at step 2  
    > - You can find the expected results of the test data analysis in [Test data results](#test-data-results)
@@ -97,7 +97,7 @@ profiles {
 		params.ref_seq_path = "${baseDir}/reference_sequences/reference.fasta"
 		params.insert_length = "536"
 		params.length_tolerance = "20"
-		params.minimum_quality_score = "10"
+		params.minimum_quality_score = "20"
 		params.minimum_percent_quality_bases = "90"
 		params.cutoff = "2"
 		params.threshold = "50"
