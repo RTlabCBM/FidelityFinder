@@ -30,9 +30,9 @@
 4. [Libray preparation](#library-preparation)
 5. [Pipeline overview](#pipeline-overview)
    * [Step 1: Quality Control](#step-1-quality-control)
-   * [Step 2: Joining of Paired Reads and Filtering by Length](#step-2-joining-of-paired-reads-and-filtering-by-length)
+   * [Step 2: Joining of Paired Reads](#step-2-joining-of-paired-reads)
    * [Step 3: Graph Lengths of the Merged Reads](#step-3-graph-lengths-of-the-merged-reads)
-   * [Step 4: Quality Filtering and FASTQ to FASTA conversion](#step-4-quality-filtering-and-fastq-to-fasta-conversion)
+   * [Step 4: Length and Quality Filtering and FASTQ to FASTA conversion](#step-4-length-and-quality-filtering-and-FASTQ-to-FASTA-conversion)
    * [Step 5: Obtain Consensus Sequences](#step-5-obtain-consensus-sequences)
    * [Step 6: Map Consensus Sequences](#step-6-map-consensus-sequences)
    * [Step 7: Variant Calling](#step-7-variant-calling)
@@ -252,8 +252,8 @@ The pipeline is built using Nextflow. Processing steps:
 	</details>
 
 
-- ### Step 4:  Length and quality filtering | FASTQ to FASTA conversion
-  Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads-and-filtering-by-length) are filtered.
+- ### Step 4:  Length and quality filtering and FASTQ to FASTA conversion
+  Reads from the `<sample_name>.assembled_filtered.fastq` file of the [Step 2](#step-2-joining-of-paired-reads) are filtered.
   Length filtering:
   	Reads that differ by more than **params.length_tolerance** nucleotides from the **params.insert_length** are not selected.
   Quality filtering:
