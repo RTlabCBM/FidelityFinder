@@ -46,7 +46,7 @@
 11. [References](#references)
 
 ## Introduction
-**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of transcriptases and the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Single Strand Consensus Sequencing (SSCS). 
+**FidelityFinder** is a bioinformatics analysis pipeline to determine the fidelity of DNA synthesis by reverse transcriptases (RTs) from sequences obtained by Single Strand Consensus Sequencing (SSCS). 
 
 Fidelity determination is based on the use of Unique Molecular Identifiers (UMIs) or barcodes. Each cDNA obtained by RTs is tagged with a barcode, so each cDNA molecule has a unique identity. Then, these cDNAs are amplified by PCR, and adapter sequences are added to generate a library (see [Libray preparation](#library-preparation) for a more detailed explanation). The libraries generated are then sequenced by NGS and **FidelityFinder** is able to evaluate the fidelity of the RT used: the pipeline discards PCR and NGS errors thanks to the construction of consensus sequences that share the same barcode sequence, and it obtains an error rate comparing the consensus sequences obtained and their reference sequence. This error rate is the combination of transcription and reverse transcription errors (see [Pipeline overview](#pipeline-overview) for a more detailed explanation of the pipeline). The higher the fidelity of the RT used, the lower the error rate.  
 
