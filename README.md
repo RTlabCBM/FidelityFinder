@@ -11,7 +11,6 @@
         <img src="https://img.shields.io/badge/python-%23306998?logo=python&logoColor=white" /></a>
     <a href="https://dl.circleci.com/status-badge/redirect/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main">
         <img src="https://dl.circleci.com/status-badge/img/circleci/otEhDT8pGaAEyjBGSiC6d/5x57MPpNkWytxdZmFhA4Yb/tree/main.svg?style=shield&circle-token=7c1136d7caa0d43d54a9e8041af0a703d904348e" /></a>
-    <a href="https://zenodo.org/doi/10.5281/zenodo.11441722"><img src="https://zenodo.org/badge/685004413.svg" alt="DOI"></a>
 </p>
 
 <br>
