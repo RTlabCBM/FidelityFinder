@@ -404,8 +404,9 @@ Additionally, there are two extra Google Colab notebooks to further process the 
 FidelityFinder includes several third-party packages provided under other open source licenses, please check them for additional details.
 
 ## Citation  
-We politely request that this work be cited as:  
-(Citation details are not yet available)
+We politely request that this work be cited as:
+
+Martínez del Río, J., Frutos-Beltrán, E., Sebastián-Martín, A., Lasala, F., Yasukawa, K., Delgado, R., & Arias, L. M. (2024). HIV-1 reverse transcriptase error rates and transcriptional thresholds based on single-strand consensus sequencing of target RNA derived from in vitro-transcription and HIV-infected cells. Journal of Molecular Biology, 168815. [https://doi.org/10.1016/j.jmb.2024.168815](https://doi.org/10.1016/j.jmb.2024.168815)
 
 ## Developers
 ### Main developer
